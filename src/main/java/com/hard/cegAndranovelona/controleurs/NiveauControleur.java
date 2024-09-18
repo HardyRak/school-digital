@@ -5,8 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.hard.cegAndranovelona.modeles.$majus$;
-import com.hard.cegAndranovelona.service.$majus$Service;
+import com.hard.cegAndranovelona.modeles.Niveau;
+import com.hard.cegAndranovelona.service.NiveauService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import java.util.List;
@@ -14,25 +14,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Controller
-public class $majus$Controleur {
+public class NiveauControleur {
     @Autowired
-    private $majus$Service service;
+    private NiveauService service;
     @CrossOrigin(origins = "*")
-    @GetMapping("/api/$minus$")
-    public ResponseEntity<List<$majus$>> getAll$majus$Api() {
-        List<$majus$> entities = service.getAll();
+    @GetMapping("/api/niveau")
+    public ResponseEntity<List<Niveau>> getAllNiveauApi() {
+        List<Niveau> entities = service.getAll();
         return new ResponseEntity<>(entities, HttpStatus.OK);
     }
 
-    @GetMapping("/$minus$")
-    public String getAll$minus$(@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue="") String tri, Model model) {
-        Page<$majus$> entities = service.getAll(page,5,tri);
-        model.addAttribute("$minus$s",entities);
-        return "pages/$minus$/liste";
+    @GetMapping("/niveau")
+    public String getAllniveau(@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue="") String tri, Model model) {
+        Page<Niveau> entities = service.getAll(page,5,tri);
+        model.addAttribute("niveaus",entities);
+        return "pages/niveau/liste";
     }
 
-    @GetMapping("/$minus$/ajout")
+    @GetMapping("/niveau/ajout")
     public String formInsert(Model model) {
-        return "pages/$minus$/ajout";
+        return "pages/niveau/ajout";
     }
 }

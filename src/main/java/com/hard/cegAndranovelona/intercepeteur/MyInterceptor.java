@@ -30,7 +30,7 @@ public class MyInterceptor implements HandlerInterceptor {
             return true;
         }else{
             if (session.getAttribute("admin")==null) {
-                response.sendRedirect("/loginAdmin?url not found");
+                response.sendRedirect("/loginAdmin?msg=url not found");
                 return false;
             }
         }

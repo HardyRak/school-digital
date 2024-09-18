@@ -1,19 +1,22 @@
 package com.hard.cegAndranovelona.modeles;
 
+import java.util.List;
+
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class Administrateur {
+public class Niveau {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idAdmin;
+    private long idNiveau;
     private String nom;
-    private String motDepasse;
-    private int etat; //1 actif
-                      //0 inactif
+    @OneToMany(mappedBy = "section",fetch = FetchType.EAGER)
+    private List<Section> section;
 }

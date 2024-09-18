@@ -8,12 +8,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Administrateur {
+public class AnneeScolaire {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idAdmin;
-    private String nom;
-    private String motDepasse;
-    private int etat; //1 actif
-                      //0 inactif
+    private long idAnnee;
+    private int debut;
+    private int fin;
+    private int estActu;
 }

@@ -1,8 +1,8 @@
 package com.hard.cegAndranovelona.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.hard.cegAndranovelona.modeles.$majus$;
-import com.hard.cegAndranovelona.repository.$majus$Repository;
+import com.hard.cegAndranovelona.modeles.Section;
+import com.hard.cegAndranovelona.repository.SectionRepository;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,19 +10,19 @@ import java.util.List;
 import org.springframework.data.domain.Sort;
 
 @Service
-public class $majus$Service {
+public class SectionService {
     @Autowired
-    private $majus$Repository repository;
+    private SectionRepository repository;
 
-    public $majus$ saveOrUpdate($majus$ entity) {
+    public Section saveOrUpdate(Section entity) {
         return repository.save(entity);
     }
 
-    public Optional<$majus$> getById(Long id) {
+    public Optional<Section> getById(Long id) {
         return repository.findById(id);
     }
 
-    public Page<$majus$> getAll(int page, int size, String fieldTri) {
+    public Page<Section> getAll(int page, int size, String fieldTri) {
         Sort sort = null;
         if (fieldTri != null && !fieldTri.isEmpty()) {
             String[] split = fieldTri.split(",");
@@ -32,7 +32,7 @@ public class $majus$Service {
         return repository.findAll(PageRequest.of(page, size));
     }
 
-    public List<$majus$> getAll() {
+    public List<Section> getAll() {
         return repository.findAll();
     }
 
