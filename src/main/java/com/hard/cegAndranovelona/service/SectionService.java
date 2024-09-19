@@ -1,6 +1,9 @@
 package com.hard.cegAndranovelona.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.hard.cegAndranovelona.modeles.AnneeScolaire;
+import com.hard.cegAndranovelona.modeles.Niveau;
 import com.hard.cegAndranovelona.modeles.Section;
 import com.hard.cegAndranovelona.repository.SectionRepository;
 import java.util.Optional;
@@ -39,4 +42,9 @@ public class SectionService {
     public void deleteById(Long id) {
         repository.deleteById(id);
     }
+
+    public List<Section> getByAnneeEtNiveau(AnneeScolaire anneeScolaire,Niveau niveau){
+        return repository.findByAnneeScolaireAndNiveau(anneeScolaire, niveau);
+    }
+
 }
