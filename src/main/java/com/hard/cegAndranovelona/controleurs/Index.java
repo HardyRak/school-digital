@@ -47,6 +47,5 @@ public class Index {
         System.out.println(hash);
         return hash;
     }
-
 }
 

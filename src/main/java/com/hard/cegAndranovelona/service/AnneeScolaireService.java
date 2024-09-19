@@ -33,6 +33,7 @@ public class AnneeScolaireService {
     }
 
     public List<AnneeScolaire> getAll() {
+     
         Sort sort = Sort.by("fin").ascending();
         return repository.findAll(sort);
     }

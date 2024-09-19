@@ -45,5 +45,4 @@ public class AdministrateurService {
     public Administrateur login(String nom,String motDePasse){
         return repository.findByNomAndMotDepasse(nom, motDePasse);
     }
-
 }

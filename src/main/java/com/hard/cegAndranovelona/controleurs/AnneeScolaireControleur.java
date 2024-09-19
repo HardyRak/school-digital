@@ -33,5 +33,4 @@ public class AnneeScolaireControleur {
     public String formInsert(Model model) {
         return "pages/anneeScolaire/ajout";
     }
-
 }
