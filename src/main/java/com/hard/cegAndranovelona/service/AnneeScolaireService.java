@@ -33,7 +33,8 @@ public class AnneeScolaireService {
     }
 
     public List<AnneeScolaire> getAll() {
-        return repository.findAll();
+        Sort sort = Sort.by("fin").ascending();
+        return repository.findAll(sort);
     }
 
     public void deleteById(Long id) {

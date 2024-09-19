@@ -18,6 +18,6 @@ public class WebConfig implements WebMvcConfigurer {
         // Enregistre l'intercepteur pour toutes les URLs, mais exclut les fichiers statiques
         registry.addInterceptor(myInterceptor)
                 .addPathPatterns("/**") // Intercepte toutes les URL
-                .excludePathPatterns("/plugins/**", "/dist/**", "/static/**", "/css/**", "/js/**", "/images/**", "/favicon.ico","/error");
+                .excludePathPatterns("/plugins/**", "/dist/**", "/static/**", "/css/**", "/js/**", "/image/**", "/favicon.ico","/error");
     }
 }

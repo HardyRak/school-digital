@@ -1,0 +1,149 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>demande</title>
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../../https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="../../plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <link rel="stylesheet" href="../../plugins/jqvmap/jqvmap.min.css">
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="../../plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="../../plugins/summernote/summernote-bs4.min.css">
+    <link rel="stylesheet" href="../../plugins/bootstrap/css/bootstrap.css">
+</head>
+<style>
+  .blue-row{
+    background-color: beige;
+  }
+</style>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6" style="margin-top: 15px;">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title" th:text="'Année Scolaire'" ></h3>
+                </div>
+                <div class="card-body">
+                    <table id="data" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    #
+                                </th>
+                                <th>
+                                    Année début
+                                </th>
+                                <th>
+                                    Année fin
+                                </th>
+                                <th>
+                                    détails
+                                </th>
+                        </thead>
+                        <tbody id="tbody">
+                          <tr th:each="resultat : ${anneeScolaires}" th:classappend="${resultat.estActu!=1} ? '' : 'blue-row'">
+                            <td th:text="${resultat.idAnnee}"></td>
+                            <td th:text="${resultat.debut}"></td>
+                            <td th:text="${resultat.fin}"></td>
+                            <td>
+                                <button type="button" 
+                                th:onclick="'getDataAnnee(' + ${resultat.idAnnee} + ',' +${resultat.debut}+ ',' +${resultat.fin}+ ' )'"
+                                class="btn btn-block btn-outline-info btn-sm">Info</button>
+                            </td>
+                          </tr>
+                        </tbody>
+                    </table>
+                </div>
+          </div>
+        </div>
+        <div id="listeNiv" class="col-md-6" style="margin-top: 15px;display: none;">
+            <div class="card">
+              <div class="card-header">
+                <h3 id="titreNiveau" class="card-title">Niveaux</h3>
+              </div>
+              <div class="card-body">
+                <table id="dataNiveau" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Niveaux
+                            </th>
+                            <th>
+                                détails
+                            </th>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+      </div>
+  </div>
+</body>
+<script type="text/javascript" src="../../plugins/pdf/jspdf.umd.js"></script>
+<script type="text/javascript" src="../../plugins/pdf/basic.js"></script>
+<script type="text/javascript" src="../../plugins/pdf/jspdf.plugin.autotable.min.js"></script>
+<script type="text/javascript" src="../../plugins/xlsx/xlsx.full.min.js"></script>
+<script type="text/javascript" src="../../plugins/pdf/html2pdf.bundle.min.js"></script>
+<script type="text/javascript" src="../../plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="../../plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="../../plugins/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="../../plugins/chart.js/Chart.min.js"></script>
+<script>
+  function getDataAnnee(idAnnee,debut,fin) {
+    return new Promise(function(resolve, reject) {
+        $.ajax({
+        url: '/api/niveau',
+        method: 'GET',
+        success: function(response) {
+            resolve(response);
+            console.log(idAnnee);
+            const titreNiv=document.getElementById('titreNiveau');
+            const listeNiv=document.getElementById('listeNiv');
+            listeNiv.style.display='';
+            titreNiv.textContent='Niveau '+debut+'-'+fin;
+
+            const tableBody = document.querySelector("#dataNiveau tbody");
+            tableBody.innerHTML='';
+            response.forEach(item => {
+                const row = document.createElement("tr");
+
+                const idCell = document.createElement("td");
+                idCell.textContent = item.idNiveau;
+                row.appendChild(idCell);
+
+                const nameCell = document.createElement("td");
+                nameCell.textContent = item.nom;
+                row.appendChild(nameCell);
+                
+                const detailCell = document.createElement("td");
+                const btn=document.createElement('button');
+                btn.type='button';
+                btn.className='btn btn-block btn-outline-info btn-sm';
+                btn.textContent='info';
+                detailCell.appendChild(btn);
+                row.appendChild(detailCell);
+                tableBody.appendChild(row);
+            });
+        },
+        error: function(error) {
+            reject(error);
+        }
+        });
+    });
+  }
+  
+  </script>
+ </body>
+</html>

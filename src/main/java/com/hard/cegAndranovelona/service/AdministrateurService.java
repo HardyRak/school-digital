@@ -41,4 +41,9 @@ public class AdministrateurService {
     public void deleteById(Long id) {
         repository.deleteById(id);
     }
+
+    public Administrateur login(String nom,String motDePasse){
+        return repository.findByNomAndMotDepasse(nom, motDePasse);
+    }
+
 }

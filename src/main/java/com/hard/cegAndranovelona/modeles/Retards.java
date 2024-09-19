@@ -1,6 +1,5 @@
 package com.hard.cegAndranovelona.modeles;
 
-import java.sql.Date;
 import java.time.ZonedDateTime;
 
 import jakarta.persistence.Entity;
