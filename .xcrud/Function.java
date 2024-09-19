@@ -40,7 +40,7 @@ public class Function {
         }catch (Exception e) {
             e.printStackTrace();
         }
-        File doc=new File("../src/main/java/com/spring/hard/controleur");
+        File doc=new File("../src/main/java/com/hard/cegAndranovelona/controleurs");
         doc.mkdirs();
         File controleur=new File(doc.getPath()+"/"+name+"Controleur.java");
         if(!controleur.exists()){
@@ -64,7 +64,7 @@ public class Function {
         }catch (Exception e) {
             e.printStackTrace();
         }
-        File doc=new File("../src/main/java/com/spring/hard/"+action);
+        File doc=new File("../src/main/java/com/hard/cegAndranovelona/"+action);
         doc.mkdirs();
         String nameJava=doc.getPath()+"/"+name+""+majFirst(action)+".java";;
         File javaFile=new File(nameJava);
@@ -84,7 +84,7 @@ public class Function {
     }
 
     public  static void generateAll() throws Exception{
-        File repoModel=new File("../src/main/java/com/spring/hard/models");
+        File repoModel=new File("../src/main/java/com/hard/cegAndranovelona/modeles");
         File[] allModel=repoModel.listFiles();
         for (int i = 0; i < allModel.length; i++) {
             String[] spl=allModel[i].getName().split("[.]");
@@ -97,7 +97,7 @@ public class Function {
     }
 
     public static boolean verifExiste(String name) throws Exception{
-        File repoModel=new File("../src/main/java/com/spring/hard/models");
+        File repoModel=new File("../src/main/java/com/hard/cegAndranovelona/modeles");
         File[] allModel=repoModel.listFiles();
         for (int i = 0; i < allModel.length; i++) {
             String[] spl=allModel[i].getName().split("[.]");
