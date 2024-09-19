@@ -8,4 +8,5 @@ import com.hard.cegAndranovelona.modeles.Administrateur;
 @Repository
 public interface AdministrateurRepository extends JpaRepository<Administrateur, Long> {
     Page<Administrateur> findAll(Pageable pageable);
+    Administrateur findByNomAndMotDepasse(String nom,String motDepasse);
 }

@@ -4,10 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import com.hard.cegAndranovelona.modeles.AnneeScolaire;
 import com.hard.cegAndranovelona.service.AnneeScolaireService;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -25,8 +23,8 @@ public class AnneeScolaireControleur {
     }
 
     @GetMapping("/anneeScolaire")
-    public String getAllanneeScolaire(@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue="") String tri, Model model) {
-        Page<AnneeScolaire> entities = service.getAll(page,5,tri);
+    public String getAllanneeScolaire(Model model) {
+        List<AnneeScolaire> entities = service.getAll();
         model.addAttribute("anneeScolaires",entities);
         return "pages/anneeScolaire/liste";
     }
