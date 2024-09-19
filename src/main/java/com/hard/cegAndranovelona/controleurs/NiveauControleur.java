@@ -5,8 +5,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.hard.cegAndranovelona.modeles.AnneeScolaire;
 import com.hard.cegAndranovelona.modeles.Niveau;
+import com.hard.cegAndranovelona.modeles.Section;
+import com.hard.cegAndranovelona.service.AnneeScolaireService;
 import com.hard.cegAndranovelona.service.NiveauService;
+import com.hard.cegAndranovelona.service.SectionService;
+
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import java.util.List;
@@ -17,6 +23,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 public class NiveauControleur {
     @Autowired
     private NiveauService service;
+    @Autowired 
+    private AnneeScolaireService anneeScolaireService;
+    @Autowired
+    private SectionService sectionService;
+
     @CrossOrigin(origins = "*")
     @GetMapping("/api/niveau")
     public ResponseEntity<List<Niveau>> getAllNiveauApi() {
@@ -35,4 +46,14 @@ public class NiveauControleur {
     public String formInsert(Model model) {
         return "pages/niveau/ajout";
     }
+
+    @GetMapping("/niveau/sections")
+    public String listeSectionNiveauAnnee(@RequestParam long id_niveau,@RequestParam long id_anneScolaire,Model model){
+        Niveau niveau=service.getById(id_niveau).get();
+        AnneeScolaire anneeScolaire=anneeScolaireService.getById(id_anneScolaire).get();
+        List<Section> sections=sectionService.getByAnneeEtNiveau(anneeScolaire, niveau);
+        model.addAttribute("sections",sections);
+        return "pages/section/liste";
+    }
+
 }
