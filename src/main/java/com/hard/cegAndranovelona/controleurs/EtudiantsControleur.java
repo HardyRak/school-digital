@@ -61,4 +61,13 @@ public class EtudiantsControleur {
         service.saveOrUpdate(etudiants);
         return "hello";
     }
+
+    @GetMapping("/etudiant/certificat")
+    public String certificatScolarite(@RequestParam long id_etudiant,Model model){
+        Etudiants etudiants=service.getById(id_etudiant).get();
+        model.addAttribute("etudiant",etudiants);
+        model.addAttribute("date",Function.getCurrenDate());
+        return "pages/etudiant/certifi";
+    }
+
 }

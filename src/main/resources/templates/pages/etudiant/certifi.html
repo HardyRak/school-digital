@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Certificat de Scolarité</title>
+    <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="../../plugins/bootstrap/css/bootstrap.css">
+
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            margin: 40px;
+        }
+        .container {
+            width: 500px;
+            margin: auto;
+            font-size: x-large;
+        }
+        .title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .subtitle {
+            text-align: center;
+            font-size: 18px;
+        }
+        .content {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        .signature {
+            text-align: right;
+            font-size: large;
+            margin-bottom: 80px;
+        }
+        .slogan{
+            font-family: 'Cursive', sans-serif;
+            text-align: center;
+        }
+        .date{
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="col-md-2">
+        <button type="button" onclick="topdfall('certificat')" class="btn btn-block btn-outline-info btn-sm">PDF</button>
+    </div>
+    <div id="certificat" class="container">
+        <div>
+            <div class="title">REPOBLIKAN'I MADAGASIKARA</div>
+            <div class="slogan"><u>Fitiavana-Tanindrazana-Fandrosoana</u></div>
+            <div class="content">
+            <p>CIRCONSCRIPTION SCOLAIRE<br>
+            <u>ANTANANARIVO AVARADRANO</u><br>
+            COLLEGE D'ENSEIGEMENT GENERAL<br>
+            <u>ANDRANOVELONA ILAFY</u><br>
+            CODE N°103 070 018<br></p>
+            <div class="subtitle"><u>CERTIFICAT DE SCOLARITE</u></div>
+                <p><span style="margin-left:80px;">Je Soussigné, ANDRIANARIMALALA Romeo Sedera,<span><br> Directeur du Collège d'Enseignement Général d'Andranoveiona Ilafy,<br> Antananarivo Avaradrano. Certifie que:</p>
+                <p><b style="font-size:17px;" th:text="${etudiant.nom}+' '+${etudiant.prenom}">NOM</b> Née le <g th:text="${etudiant.dateNaissance}" >Date Naissance</g> à <g th:text="${etudiant.lieuNaissance}">Mahamasina</g> </p>
+                <p th:if="${etudiant.genre}==F" th:text="'Fille de '+${etudiant.nomPere}" ></p>
+                <p th:if="${etudiant.genre}==G" th:text="'Fils de '+${etudiant.nomPere}" ></p>
+                <p>Et de : <g th:text="${etudiant.nomMere}" ></g></p>
+                <p>Adresse des Parents ou Tuteurs: <g th:text="${etudiant.adresseParent}">[Adresse]</g></p>
+                <p>Est élève de mon Etablissement du [Date] à ce jour, est</p> <p><g th:if="${etudiant.genre}==F">inscrite</g><g th:if="${etudiant.genre}==G">inscrit</g> au registre sous le numéro <b th:text="${etudiant.matricule}">Matricule</b> Classe de <g th:text="${etudiant.section.niveau.nom}">Classe</g></p>
+                <p>Année scolaire <g th:text="${etudiant.section.anneeScolaire.debut}+'-'+${etudiant.section.anneeScolaire.fin}">anneeScolaires</g> En foi de quoi, le présent certificat Lui est délivré pour servir ce que de droit.</p>
+                <p class="date">Fait à Andranovelona, le <g th:text="${date}">[Date]</g></p>
+            </div>
+            <div class="signature">
+                <p>Le Directeur</p>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../../plugins/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../plugins/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="../../plugins/pdf/html2pdf.bundle.min.js"></script>
+    <script>
+        function topdfall(iddata) {
+            const element = document.getElementById(iddata);
+            element.style.display = '';
+            const options = {
+                filename: iddata + '.pdf',
+                margin: 0,
+                image: { type: 'png', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: {
+                    unit: 'in',
+                    format: 'a5',
+                    orientation: 'portrait' // Changed to landscape
+                }
+            };
+            html2pdf().set(options).from(element).save();
+        }
+    </script>
+</body>
+</html>
+
