@@ -22,3 +22,9 @@ INSERT INTO section(section,id_niveau,id_annee_scolaire) VALUES ('4ème2',3,1);
 
 INSERT INTO section(section,id_niveau,id_annee_scolaire) VALUES ('3ème1',4,1);
 INSERT INTO section(section,id_niveau,id_annee_scolaire) VALUES ('3ème2',4,1);
+
+
+------------------------ETUDIANT------------------------------------
+INSERT INTO "etudiants"("nom","prenom","nom_pere","adresse_parent","contact_parent","date_naissance","lieu_naissance","adresse","matricule","nom_mere","ecole_anterieur","id_section") VALUES('LOVASOA','Sarobidy','RAJAO','Ilafy','034 45 455 66','2010-09-19','Sabotsy','Ilafy','1234','FANJA','EPP Ilafy',6);
+
+INSERT INTO "historique_classe"("id_etudiant","id_annee_scolaire","id_section") VALUES(2,1,6);

@@ -1,17 +1,13 @@
 package com.hard.cegAndranovelona.modeles;
 
 import java.sql.Date;
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -56,6 +52,12 @@ public class Etudiants {
     @JoinColumn(name = "id_section", nullable = false)
     private Section section;
 
-    @OneToMany(mappedBy = "etudiant",fetch = FetchType.EAGER)
-    private List<HistoriqueClasse> historiqueClasses;
+    private String genre;
+
+    @Column(columnDefinition = "text",nullable = true)
+    private String image;
+
+    @Column(columnDefinition = "text",nullable = true)
+    private String qr;
+
 }
