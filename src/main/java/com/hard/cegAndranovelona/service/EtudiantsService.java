@@ -46,4 +46,13 @@ public class EtudiantsService {
         return repository.findBySection(section, sort);
     }
 
+    public List<Etudiants> getByMatricule(String matricule){
+        return repository.findByMatricule(matricule);
+    }
+
+    public List<Etudiants> rechercheParNom(String nom){
+        nom = nom.replace(" ", "%");
+        return repository.rechercheParNom(nom);
+    }
+
 }

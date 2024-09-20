@@ -1,0 +1,137 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recherche Etudiant</title>
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body>
+    <section class="content">
+        <div class="container-fluid">
+            <h4 class="text-center display-4">Recherche</h4>
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                        <div class="input-group">
+                            <input type="search" id="inputRecherche" class="form-control form-control-lg" placeholder="Matricule ou Nom">
+                            <div class="input-group-append">
+                                <button type="submit" onclick="getDataEtudiant()" class="btn btn-lg btn-default">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <div class="row">
+                <div id="cardEtudiant" class="col-md-12" style="margin-top: 15px;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 id="titreListe" class="card-title" th:text="'Resultats'" ></h3>
+                        </div>
+                        <div class="card-body">
+                            <table id="dataEtudiant" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Matricule
+                                        </th>
+                                        <th>
+                                            Nom
+                                        </th>
+                                        <th>
+                                            Prénom
+                                        </th>
+                                        <th>
+                                            Classe
+                                        </th>
+                                        <th>
+                                            Date de Naissance
+                                        </th>
+                                        <th>
+                                            Genre
+                                        </th>
+                                        <th>
+                                            Détails
+                                        </th>
+                                </thead>
+                                <tbody>
+                                    <div id="loadingSpinner" style="display: none;">
+                                        <i class="fas fa-circle-notch fa-spin"></i> Chargement...
+                                    </div>                            
+                                </tbody>
+                            </table>
+                        </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script type="text/javascript" src="../../plugins/jquery/jquery.min.js"></script>
+    <script>
+         function attendre(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function getDataEtudiant() {
+        const input=document.getElementById('inputRecherche');
+        const tableBody = document.querySelector("#dataEtudiant tbody");
+        tableBody.innerHTML='';
+        const loadingSpinner=document.getElementById('loadingSpinner');
+        loadingSpinner.style.display='block';
+        await attendre(1000)
+        return new Promise(function(resolve, reject) {
+            $.ajax({
+            url: `/etudiant/recherche/resultat?parametre=${input.value}`,
+            method: 'GET',
+            success: function(response) {
+                resolve(response);
+                console.log(response);
+                loadingSpinner.style.display='none';
+                response.forEach(item => {
+                    const row=document.createElement('tr');
+
+                    const matriculeCell = document.createElement("td");
+                    matriculeCell.textContent = item.matricule;
+                    row.appendChild(matriculeCell);
+
+                    const nomCell = document.createElement("td");
+                    nomCell.textContent = item.nom;
+                    row.appendChild(nomCell);
+
+                    const prenomCell = document.createElement("td");
+                    prenomCell.textContent = item.prenom;
+                    row.appendChild(prenomCell);
+
+                    const classCell = document.createElement("td");
+                    classCell.textContent = item.section.section;
+                    row.appendChild(classCell);
+                    
+                    const naissCell = document.createElement("td");
+                    naissCell.textContent = item.dateNaissance;
+                    row.appendChild(naissCell);
+
+                    const genreCell = document.createElement("td");
+                    genreCell.textContent = item.genre;
+                    row.appendChild(genreCell);
+
+                    const detailCell = document.createElement("td");
+                    detailCell.innerHTML = `
+                        <a href="/etudiant/profil?id_etudiant=${item.idEtudiants}">
+                            <button class="btn btn-block btn-outline-info btn-sm" type="button">Info</button>
+                        </a>`;
+                    row.appendChild(detailCell);
+
+                    tableBody.appendChild(row);
+
+                });
+
+            },
+            error: function(error) {
+                reject(error);
+            }
+            });
+        });
+  }
+    </script>
+</body>
+</html>

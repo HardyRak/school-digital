@@ -60,7 +60,7 @@
             CODE N°103 070 018<br></p>
             <div class="subtitle"><u>CERTIFICAT DE SCOLARITE</u></div>
                 <p><span style="margin-left:80px;">Je Soussigné, ANDRIANARIMALALA Romeo Sedera,<span><br> Directeur du Collège d'Enseignement Général d'Andranoveiona Ilafy,<br> Antananarivo Avaradrano. Certifie que:</p>
-                <p><b style="font-size:17px;" th:text="${etudiant.nom}+' '+${etudiant.prenom}">NOM</b> Née le <g th:text="${etudiant.dateNaissance}" >Date Naissance</g> à <g th:text="${etudiant.lieuNaissance}">Mahamasina</g> </p>
+                <p><b style="font-size:17px;" th:text="${etudiant.nom}+' '+${etudiant.prenom}">NOM</b> <g th:if="${etudiant.genre}==F" >Née</g><g th:if="${etudiant.genre}==G" >Né</g> le <g th:text="${etudiant.dateNaissance}" >Date Naissance</g> à <g th:text="${etudiant.lieuNaissance}">Mahamasina</g> </p>
                 <p th:if="${etudiant.genre}==F" th:text="'Fille de '+${etudiant.nomPere}" ></p>
                 <p th:if="${etudiant.genre}==G" th:text="'Fils de '+${etudiant.nomPere}" ></p>
                 <p>Et de : <g th:text="${etudiant.nomMere}" ></g></p>
