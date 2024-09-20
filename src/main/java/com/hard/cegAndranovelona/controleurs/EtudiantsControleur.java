@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.google.zxing.WriterException;
 import com.hard.cegAndranovelona.function.Function;
 import com.hard.cegAndranovelona.modeles.Avertissement;
 import com.hard.cegAndranovelona.modeles.Etudiants;
@@ -15,7 +14,6 @@ import com.hard.cegAndranovelona.service.EtudiantsService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 
-import java.io.IOException;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -68,6 +66,23 @@ public class EtudiantsControleur {
         model.addAttribute("etudiant",etudiants);
         model.addAttribute("date",Function.getCurrenDate());
         return "pages/etudiant/certifi";
+    }
+
+    @GetMapping("/etudiant/recherche")
+    public String pageRecherche(){
+        return "pages/etudiant/recherche";
+    }
+
+    @GetMapping("/etudiant/recherche/resultat")
+    public ResponseEntity<List<Etudiants>> recherche(@RequestParam String parametre){
+        try {
+            Integer.parseInt(parametre);
+            List<Etudiants> etudiants=service.getByMatricule(parametre);
+            return new ResponseEntity<>(etudiants, HttpStatus.OK);
+        } catch (Exception e) {
+            List<Etudiants> etudiants=service.rechercheParNom(parametre);
+            return new ResponseEntity<>(etudiants, HttpStatus.OK);
+        }
     }
 
 }
