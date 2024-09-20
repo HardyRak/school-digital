@@ -40,9 +40,54 @@
                             <td th:text="${resultat.section}"></td>
                             <td>
                                 <button type="button"
-                                class="btn btn-block btn-outline-info btn-sm">Info</button>
+                                th:data-id-section="${resultat.idSection}" 
+                                th:data-section="${resultat.section}" 
+                                onclick="getDataEtudiant(this.dataset.idSection, this.dataset.section)"
+                                class="btn btn-block btn-outline-info btn-sm">Voir</button>
                             </td>
                           </tr>
+                        </tbody>
+                    </table>
+                </div>
+          </div>
+        </div>
+    </div>
+    <div class="row">
+        <div id="cardEtudiant" class="col-md-12" style="margin-top: 15px;">
+            <div class="card">
+                <div class="card-header">
+                    <h3 id="titreListe" class="card-title" th:text="'Liste des étudiants'" ></h3>
+                </div>
+                <div class="card-body">
+                    <table id="dataEtudiant" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Matricule
+                                </th>
+                                <th>
+                                    Nom
+                                </th>
+                                <th>
+                                    Prénom
+                                </th>
+                                <th>
+                                    Classe
+                                </th>
+                                <th>
+                                    Date de Naissance
+                                </th>
+                                <th>
+                                    Genre
+                                </th>
+                                <th>
+                                    Détails
+                                </th>
+                        </thead>
+                        <tbody>
+                            <div id="loadingSpinner" style="display: none;">
+                                <i class="fas fa-circle-notch fa-spin"></i> Chargement...
+                            </div>                            
                         </tbody>
                     </table>
                 </div>
@@ -54,7 +99,71 @@
 <script type="text/javascript" src="../../plugins/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="../../plugins/bootstrap/js/bootstrap.js"></script>
 <script>
- 
+
+    function attendre(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function getDataEtudiant(id_section,section) {
+        const titre=document.getElementById('titreListe');
+        titre.textContent=`Liste des étudiants ${section}`
+        const tableBody = document.querySelector("#dataEtudiant tbody");
+        tableBody.innerHTML='';
+        const loadingSpinner=document.getElementById('loadingSpinner');
+        loadingSpinner.style.display='block';
+        await attendre(1000)
+        return new Promise(function(resolve, reject) {
+            $.ajax({
+            url: `/api/section/etudiants?id_section=${id_section}`,
+            method: 'GET',
+            success: function(response) {
+                resolve(response);
+                loadingSpinner.style.display='none';
+                response.forEach(item => {
+                    const row=document.createElement('tr');
+
+                    const matriculeCell = document.createElement("td");
+                    matriculeCell.textContent = item.etudiant.matricule;
+                    row.appendChild(matriculeCell);
+
+                    const nomCell = document.createElement("td");
+                    nomCell.textContent = item.etudiant.nom;
+                    row.appendChild(nomCell);
+
+                    const prenomCell = document.createElement("td");
+                    prenomCell.textContent = item.etudiant.prenom;
+                    row.appendChild(prenomCell);
+
+                    const classCell = document.createElement("td");
+                    classCell.textContent = item.section.section;
+                    row.appendChild(classCell);
+                    
+                    const naissCell = document.createElement("td");
+                    naissCell.textContent = item.etudiant.dateNaissance;
+                    row.appendChild(naissCell);
+
+                    const genreCell = document.createElement("td");
+                    genreCell.textContent = item.etudiant.genre;
+                    row.appendChild(genreCell);
+
+                    const detailCell = document.createElement("td");
+                    detailCell.innerHTML = `
+                        <a href="/etudiant/profil?id_etudiant=${item.etudiant.idEtudiants}">
+                            <button class="btn btn-block btn-outline-info btn-sm" type="button">Info</button>
+                        </a>`;
+                    row.appendChild(detailCell);
+
+                    tableBody.appendChild(row);
+
+                });
+
+            },
+            error: function(error) {
+                reject(error);
+            }
+            });
+        });
+  }
 </script>
  </body>
 </html>

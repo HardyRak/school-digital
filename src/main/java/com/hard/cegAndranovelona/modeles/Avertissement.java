@@ -20,7 +20,7 @@ public class Avertissement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idAvertisement;
-
+    private String cause;
     @ManyToOne
     @JoinColumn(name = "id_etudiant")
     private Etudiants etudiant;

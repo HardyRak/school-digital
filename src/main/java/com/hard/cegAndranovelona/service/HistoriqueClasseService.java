@@ -1,9 +1,9 @@
 package com.hard.cegAndranovelona.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.hard.cegAndranovelona.modeles.Etudiants;
+import com.hard.cegAndranovelona.modeles.HistoriqueClasse;
 import com.hard.cegAndranovelona.modeles.Section;
-import com.hard.cegAndranovelona.repository.EtudiantsRepository;
+import com.hard.cegAndranovelona.repository.HistoriqueClasseRepository;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,19 +11,19 @@ import java.util.List;
 import org.springframework.data.domain.Sort;
 
 @Service
-public class EtudiantsService {
+public class HistoriqueClasseService {
     @Autowired
-    private EtudiantsRepository repository;
+    private HistoriqueClasseRepository repository;
 
-    public Etudiants saveOrUpdate(Etudiants entity) {
+    public HistoriqueClasse saveOrUpdate(HistoriqueClasse entity) {
         return repository.save(entity);
     }
 
-    public Optional<Etudiants> getById(Long id) {
+    public Optional<HistoriqueClasse> getById(Long id) {
         return repository.findById(id);
     }
 
-    public Page<Etudiants> getAll(int page, int size, String fieldTri) {
+    public Page<HistoriqueClasse> getAll(int page, int size, String fieldTri) {
         Sort sort = null;
         if (fieldTri != null && !fieldTri.isEmpty()) {
             String[] split = fieldTri.split(",");
@@ -33,7 +33,7 @@ public class EtudiantsService {
         return repository.findAll(PageRequest.of(page, size));
     }
 
-    public List<Etudiants> getAll() {
+    public List<HistoriqueClasse> getAll() {
         return repository.findAll();
     }
 
@@ -41,8 +41,8 @@ public class EtudiantsService {
         repository.deleteById(id);
     }
 
-    public List<Etudiants> getBySection(Section section){
-        Sort sort = Sort.by("nom").ascending();
+    public List<HistoriqueClasse> getBySection(Section section){
+        Sort sort = Sort.by("idHistorique").ascending();
         return repository.findBySection(section, sort);
     }
 

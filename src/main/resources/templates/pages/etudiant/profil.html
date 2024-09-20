@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Etudiant</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+    <body class="hold-transition sidebar-mini" style="margin-top: 25px;">
+      <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-3">
+  
+              <div class="card card-primary card-outline">
+                <div class="card-body box-profile">
+                  <div class="text-center">
+                    <img class="profile-user-img img-fluid img-circle"
+                          th:src="${etudiant.image}"
+                          alt="Photo de l'étudiant">
+                  </div>
+  
+                  <h3 class="profile-username text-center" th:text="${etudiant.nom}+' '+${etudiant.prenom}" ></h3>
+  
+                  <p class="text-muted text-center" th:text="'Matricule: '+${etudiant.matricule}+''+${etudiant.genre}"></p>
+  
+                  <ul class="list-group list-group-unbordered mb-3">
+                    <li class="list-group-item">
+                      <b>Classe:</b> <a class="float-right" th:text="${etudiant.section.niveau.nom}" ></a>
+                    </li>
+                    <li class="list-group-item">
+                      <b>Section</b> <a class="float-right" th:text="${etudiant.section.section}">543</a>
+                    </li>
+                  </ul>
+  
+                  <a href="#" class="btn btn-primary btn-block"><b>Certificat de scolarité</b></a>
+                </div>
+              </div>
+
+
+              <div class="card card-primary">
+                <div class="card-header">
+                  <h3 class="card-title">A propos</h3>
+                </div>
+                  <div class="card-body">
+                  <strong><i class="fas fa-calendar-alt mr-1"></i> Date et lieu de Naissance</strong>
+  
+                  <p class="text-muted" th:text="${etudiant.dateNaissance}+' à '+ ${etudiant.lieuNaissance} " ></p>
+  
+                  <hr>
+  
+                  <strong><i class="fas fa-map-marker-alt mr-1"></i> Adresse</strong>
+  
+                  <p class="text-muted" th:text="${etudiant.adresse}"></p>
+  
+                  <hr>
+  
+                  <strong><i class="fas fa-pencil-alt mr-1"></i> Ecole Anterieur</strong>
+  
+                  <p class="text-muted" th:text="${etudiant.ecoleAnterieur}"></p>
+  
+                </div>
+              </div>
+            </div>
+            <div class="col-md-9">
+              <div class="card">
+                <div class="card-header p-2">
+                  <ul class="nav nav-pills">
+                    <li class="nav-item"><a class="nav-link active" href="#information" data-toggle="tab">Information</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#avertissement" data-toggle="tab">Avertissements</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
+                  </ul>
+                </div>
+                <div class="card-body">
+                  <div class="tab-content">
+                    <div class="active tab-pane" id="information">
+                      <div class="post">
+                        <div class="text-center">
+                          <img class="profile-user-img img-fluid img-squard"
+                                th:src="${etudiant.qr}"
+                                alt="QR CODE">
+                        </div>
+                        <p class="text-muted text-center">Scan moi</p>
+                      </div>
+
+
+                      <div class="post clearfix">
+                        
+                        <h3 class="profile-username text-center">Autre Information</h3>
+                        
+                        <strong><i class="fas fa-user-friends mr-1"></i> Parent </strong>
+  
+                        <p class="text-muted">
+                          <span th:text="'Père: '+${etudiant.nomPere}"></span>
+                          <br>
+                          <span th:text="'Mère: '+${etudiant.nomMere}"></span>
+                        </p>
+                        <hr>
+
+                        <strong><i class="fas fa-map-marker-alt mr-1"></i> Adresse du parent</strong>
+        
+                        <p class="text-muted" th:text="${etudiant.adresseParent}" ></p>
+        
+                        <hr>
+
+                        <strong><i class="fas fa-phone mr-1"></i> Contact parent</strong>
+        
+                        <p class="text-muted" th:text="${etudiant.contactParent}"></p>
+        
+                        <hr>
+                        <strong th:if="${etudiant.nomTuteur}!=null" ><i class="fas fa-users mr-1"></i> Tuteur</strong>
+        
+                        <p th:if="${etudiant.nomTuteur}!=null" class="text-muted">
+                          <span th:text="'Nom: '+${etudiant.nomTuteur}"></span>
+                          <br>
+                          <span th:text="'Adresse: '+${etudiant.adresseTuteur}"></span>
+                          <br>
+                          <span th:text="'Contact: '+${etudiant.contactTuteur}"></span>
+                        </p>
+                      </div>
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="avertissement">
+                      <h3 class="text-center">Avertissement</h3>
+                      <div class="card-danger" th:each="avertissement : ${avertissements}">
+                        <div class="card-header">
+                          <h3 class="card-title" th:text="${avertissement.cause}"></h3>
+                        </div>
+                        <div class="card-body">
+                          <strong><i class="fas fa-calendar-alt mr-1"></i> Date: </strong>
+                          <p class="text-muted" th:text="${avertissement.date}" ></p>
+                          <hr>
+                          <strong><i class="fas fa-paint-brush mr-1"></i> Motif: </strong>
+                          <p class="text-muted" th:text="${avertissement.motif} " ></p>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <!-- /.tab-pane -->
+  
+                    <div class="tab-pane" id="settings">
+                      <form class="form-horizontal">
+                        <div class="form-group row">
+                          <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+                          <div class="col-sm-10">
+                            <input type="email" class="form-control" id="inputName" placeholder="Name">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                          <div class="col-sm-10">
+                            <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="inputName2" class="col-sm-2 col-form-label">Name</label>
+                          <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputName2" placeholder="Name">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="inputExperience" class="col-sm-2 col-form-label">Experience</label>
+                          <div class="col-sm-10">
+                            <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
+                          <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <div class="offset-sm-2 col-sm-10">
+                            <div class="checkbox">
+                              <label>
+                                <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <div class="offset-sm-2 col-sm-10">
+                            <button type="submit" class="btn btn-danger">Submit</button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+          
+        </div>
+    </body>
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../dist/js/adminlte.min.js"></script>
+</html>

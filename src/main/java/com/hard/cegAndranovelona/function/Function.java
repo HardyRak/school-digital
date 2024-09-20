@@ -2,10 +2,12 @@ package com.hard.cegAndranovelona.function;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -23,10 +25,20 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.List;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 
 import org.springframework.web.multipart.MultipartFile;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+import com.hard.cegAndranovelona.modeles.Etudiants;
 
 public class Function {
 
@@ -430,13 +442,10 @@ public class Function {
 
     public static String hashPassword(String notHash) {
         try {
-            // Créer une instance de MessageDigest pour SHA-256
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
 
-            // Appliquer le hachage sur le mot de passe en bytes
             byte[] encodedhash = digest.digest(notHash.getBytes());
 
-            // Convertir le tableau de bytes en une chaîne hexadécimale
             StringBuilder hexString = new StringBuilder();
             for (byte b : encodedhash) {
                 String hex = Integer.toHexString(0xff & b);
@@ -449,6 +458,53 @@ public class Function {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void generateQRCode(String text, int width, int height, String filePath) throws WriterException, IOException {
+        QRCodeWriter qrCodeWriter = new QRCodeWriter();
+        BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height);
+
+        Path path = FileSystems.getDefault().getPath(filePath);
+        MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
+    }
+
+    public static void generateQR(Etudiants etudiants){
+        StringBuilder dataQr=new StringBuilder();
+        dataQr.append("Nom: "+etudiants.getNom()+"\n")
+        .append("Prenom: "+etudiants.getPrenom()+"\n")
+        .append("Matricule: "+etudiants.getMatricule()+etudiants.getGenre()+"\n")
+        .append("Date de naissance: "+etudiants.getDateNaissance()+" a "+etudiants.getLieuNaissance()+"\n")
+        .append("Adresse: "+etudiants.getAdresse()+"\n")
+        .append("\n");
+        if (etudiants.getGenre().equals("F")) {
+            dataQr.append("Fille de "+etudiants.getNomPere()+" et "+etudiants.getNomMere()+"\n");
+        }else{
+            dataQr.append("Fils de "+etudiants.getNomPere()+" et "+etudiants.getNomMere()+"\n");
+        }
+        dataQr.append("Contact: "+etudiants.getContactParent()+"\n");
+        if(etudiants.getNomTuteur()!=null){
+            dataQr.append("Tuteur: "+etudiants.getNomTuteur());
+        }
+
+        String dataStr=dataQr.toString();
+        try {
+            Function.generateQRCode(dataStr, 500, 500, etudiants.getIdEtudiants()+".png");
+            File image=new File(etudiants.getIdEtudiants()+".png");
+            String base64=toBase64(image);
+            etudiants.setQr(base64);
+            image.delete();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String toBase64(File fileImage) throws IOException{
+        BufferedImage image = ImageIO.read(fileImage);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(image, "png", baos);
+        byte[] imageBytes = baos.toByteArray();
+        String base64String = Base64.getEncoder().encodeToString(imageBytes);
+        return "data:image/png;base64,"+base64String;
     }
 
 }

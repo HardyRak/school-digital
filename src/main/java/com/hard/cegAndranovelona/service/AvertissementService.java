@@ -1,9 +1,9 @@
 package com.hard.cegAndranovelona.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.hard.cegAndranovelona.modeles.Avertissement;
 import com.hard.cegAndranovelona.modeles.Etudiants;
-import com.hard.cegAndranovelona.modeles.Section;
-import com.hard.cegAndranovelona.repository.EtudiantsRepository;
+import com.hard.cegAndranovelona.repository.AvertissementRepository;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,19 +11,19 @@ import java.util.List;
 import org.springframework.data.domain.Sort;
 
 @Service
-public class EtudiantsService {
+public class AvertissementService {
     @Autowired
-    private EtudiantsRepository repository;
+    private AvertissementRepository repository;
 
-    public Etudiants saveOrUpdate(Etudiants entity) {
+    public Avertissement saveOrUpdate(Avertissement entity) {
         return repository.save(entity);
     }
 
-    public Optional<Etudiants> getById(Long id) {
+    public Optional<Avertissement> getById(Long id) {
         return repository.findById(id);
     }
 
-    public Page<Etudiants> getAll(int page, int size, String fieldTri) {
+    public Page<Avertissement> getAll(int page, int size, String fieldTri) {
         Sort sort = null;
         if (fieldTri != null && !fieldTri.isEmpty()) {
             String[] split = fieldTri.split(",");
@@ -33,7 +33,7 @@ public class EtudiantsService {
         return repository.findAll(PageRequest.of(page, size));
     }
 
-    public List<Etudiants> getAll() {
+    public List<Avertissement> getAll() {
         return repository.findAll();
     }
 
@@ -41,9 +41,8 @@ public class EtudiantsService {
         repository.deleteById(id);
     }
 
-    public List<Etudiants> getBySection(Section section){
-        Sort sort = Sort.by("nom").ascending();
-        return repository.findBySection(section, sort);
+    public List<Avertissement> getByEtudiant(Etudiants etudiants){
+        return repository.findByEtudiant(etudiants);
     }
 
 }

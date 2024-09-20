@@ -18,10 +18,6 @@ public class HistoriqueClasse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idHistorique;
-    
-    @ManyToOne
-    @JoinColumn(name = "id_annee_scolaire")
-    private AnneeScolaire anneeScolaire;
 
     @ManyToOne
     @JoinColumn(name = "id_section")
