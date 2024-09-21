@@ -56,4 +56,12 @@ public class NiveauControleur {
         return "pages/section/liste";
     }
 
+    @GetMapping("api/niveau/sections")
+    public ResponseEntity<List<Section>> listeSectionNiveau(@RequestParam long id_niveau){
+        AnneeScolaire actu=anneeScolaireService.estActu();
+        Niveau niveau=service.getById(id_niveau).get();
+        List<Section> sections=sectionService.getByAnneeEtNiveau(actu, niveau);
+        return new ResponseEntity<>(sections, HttpStatus.OK);
+    }
+
 }

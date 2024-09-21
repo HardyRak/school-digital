@@ -41,4 +41,8 @@ public class AnneeScolaireService {
     public void deleteById(Long id) {
         repository.deleteById(id);
     }
+
+    public AnneeScolaire estActu(){
+        return repository.findByEstActu(1);
+    }
 }

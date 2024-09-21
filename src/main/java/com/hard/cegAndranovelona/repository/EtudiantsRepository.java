@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-
 import com.hard.cegAndranovelona.modeles.Etudiants;
 import com.hard.cegAndranovelona.modeles.Section;
 import java.util.List;
@@ -22,6 +21,4 @@ public interface EtudiantsRepository extends JpaRepository<Etudiants, Long> {
        "LOWER(CONCAT(c.nom, ' ', c.prenom)) LIKE LOWER(CONCAT('%', :nom, '%'))")
     List<Etudiants> rechercheParNom(@Param("nom") String nom);
 
-
-    
 }
