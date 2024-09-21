@@ -8,4 +8,5 @@ import com.hard.cegAndranovelona.modeles.AnneeScolaire;
 @Repository
 public interface AnneeScolaireRepository extends JpaRepository<AnneeScolaire, Long> {
     Page<AnneeScolaire> findAll(Pageable pageable);
+    AnneeScolaire findByEstActu(int estActu);
 }

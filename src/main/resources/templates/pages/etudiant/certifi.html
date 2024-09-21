@@ -52,22 +52,24 @@
         <div>
             <div class="title">REPOBLIKAN'I MADAGASIKARA</div>
             <div class="slogan"><u>Fitiavana-Tanindrazana-Fandrosoana</u></div>
+            <p></p>
             <div class="content">
-            <p>CIRCONSCRIPTION SCOLAIRE<br>
-            <u>ANTANANARIVO AVARADRANO</u><br>
-            COLLEGE D'ENSEIGEMENT GENERAL<br>
-            <u>ANDRANOVELONA ILAFY</u><br>
-            CODE N°103 070 018<br></p>
-            <div class="subtitle"><u>CERTIFICAT DE SCOLARITE</u></div>
-                <p><span style="margin-left:80px;">Je Soussigné, ANDRIANARIMALALA Romeo Sedera,<span><br> Directeur du Collège d'Enseignement Général d'Andranoveiona Ilafy,<br> Antananarivo Avaradrano. Certifie que:</p>
-                <p><b style="font-size:17px;" th:text="${etudiant.nom}+' '+${etudiant.prenom}">NOM</b> <g th:if="${etudiant.genre}==F" >Née</g><g th:if="${etudiant.genre}==G" >Né</g> le <g th:text="${etudiant.dateNaissance}" >Date Naissance</g> à <g th:text="${etudiant.lieuNaissance}">Mahamasina</g> </p>
-                <p th:if="${etudiant.genre}==F" th:text="'Fille de '+${etudiant.nomPere}" ></p>
-                <p th:if="${etudiant.genre}==G" th:text="'Fils de '+${etudiant.nomPere}" ></p>
-                <p>Et de : <g th:text="${etudiant.nomMere}" ></g></p>
-                <p>Adresse des Parents ou Tuteurs: <g th:text="${etudiant.adresseParent}">[Adresse]</g></p>
-                <p>Est élève de mon Etablissement du [Date] à ce jour, est</p> <p><g th:if="${etudiant.genre}==F">inscrite</g><g th:if="${etudiant.genre}==G">inscrit</g> au registre sous le numéro <b th:text="${etudiant.matricule}">Matricule</b> Classe de <g th:text="${etudiant.section.niveau.nom}">Classe</g></p>
-                <p>Année scolaire <g th:text="${etudiant.section.anneeScolaire.debut}+'-'+${etudiant.section.anneeScolaire.fin}">anneeScolaires</g> En foi de quoi, le présent certificat Lui est délivré pour servir ce que de droit.</p>
-                <p class="date">Fait à Andranovelona, le <g th:text="${date}">[Date]</g></p>
+                <p>CIRCONSCRIPTION SCOLAIRE<br>
+                <u>ANTANANARIVO AVARADRANO</u><br>
+                COLLEGE D'ENSEIGEMENT GENERAL<br>
+                <u>ANDRANOVELONA ILAFY</u><br>
+                CODE N°103 070 018<br></p>
+                <div class="subtitle"><u>CERTIFICAT DE SCOLARITE</u></div>
+                    <p><span style="margin-left:80px;">Je Soussigné, ANDRIANARIMALALA Romeo Sedera,<span><br> Directeur du Collège d'Enseignement Général d'Andranoveiona Ilafy,<br> Antananarivo Avaradrano. Certifie que:</p>
+                    <p><b style="font-size:17px;" th:text="${etudiant.nom}+' '+${etudiant.prenom}">NOM</b> <g th:if="${etudiant.genre}==F" >Née</g><g th:if="${etudiant.genre}==G" >Né</g> le <g th:text="${etudiant.dateNaissance}" >Date Naissance</g> à <g th:text="${etudiant.lieuNaissance}">Mahamasina</g> </p>
+                    <p th:if="${etudiant.genre}==F" th:text="'Fille de : '+${etudiant.nomPere}" ></p>
+                    <p th:if="${etudiant.genre}==G" th:text="'Fils de : '+${etudiant.nomPere}" ></p>
+                    <p>Et de : <g th:text="${etudiant.nomMere}" ></g></p>
+                    <p>Adresse des Parents ou Tuteurs: <g th:text="${etudiant.adresseParent}">[Adresse]</g></p>
+                    <p>Est élève de mon Etablissement du [Date] à ce jour, est</p> <p><g th:if="${etudiant.genre}==F">inscrite</g><g th:if="${etudiant.genre}==G">inscrit</g> au registre sous le numéro <b th:text="${etudiant.matricule}">Matricule</b> Classe de <g th:text="${etudiant.section.niveau.nom}">Classe</g></p>
+                    <p>Année scolaire <g th:text="${etudiant.section.anneeScolaire.debut}+'-'+${etudiant.section.anneeScolaire.fin}">anneeScolaires</g> En foi de quoi, le présent certificat Lui est délivré pour servir ce que de droit.</p>
+                    <p class="date">Fait à Andranovelona, le <g th:text="${date}">[Date]</g></p>
+                </div>
             </div>
             <div class="signature">
                 <p>Le Directeur</p>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Formulaire d'etudiant</title>
+
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../../plugins/bs-stepper/css/bs-stepper.min.css">
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition sidebar-mini">
+    <h4 class="text-center">Inscription</h4>
+
+    <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+            <div class="card card-default">
+                <div class="card-header">
+                  <h3 class="card-title">Etapes d'inscription</h3>
+                </div>
+                <div class="card-body p-0">
+                    <div class="card-body" th:if="${param.msg}">
+                        <div class="alert alert-danger alert-dismissible">
+                          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                          <h6><i class="icon fas fa-ban"></i> Alert!</h6>
+                            <g th:text="${param.msg}"></g>
+                        </div>
+                      </div>
+                    </div>
+                  <div class="bs-stepper">
+                    <div class="bs-stepper-header" role="tablist">
+                      <!-- your steps here -->
+                      <div class="step" data-target="#Information-part">
+                        <button type="button" class="step-trigger" role="tab" aria-controls="Information-part" id="Information-part-trigger">
+                          <span class="bs-stepper-circle">1</span>
+                          <span class="bs-stepper-label">Information</span>
+                        </button>
+                      </div>
+  
+                      <div class="line"></div>
+                      
+                      <div class="step" data-target="#otherinformation-part">
+                        <button type="button" class="step-trigger" role="tab" aria-controls="otherinformation-part" id="otherinformation-part-trigger">
+                          <span class="bs-stepper-circle">2</span>
+                          <span class="bs-stepper-label">Parent et tuteur</span>
+                        </button>
+                      </div>
+  
+                      <div class="line"></div>
+  
+                      <div class="step" data-target="#autre-part">
+                        <button type="button" class="step-trigger" role="tab" aria-controls="autre-part" id="autre-part-trigger">
+                          <span class="bs-stepper-circle">3</span>
+                          <span class="bs-stepper-label">autre</span>
+                        </button>
+                      </div>
+  
+                    </div>
+                    <div class="bs-stepper-content">
+                      <!-- your steps content here -->
+                      <!------------------------------------------------STEP 1---------------------------------------------------------------------->
+                      <form method="POST" action="/etudiant/ajout">
+                      <div id="Information-part" class="content" role="tabpanel" aria-labelledby="Information-part-trigger">
+                        <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="nomInput">Nom</label>
+                                <input th:value="${param.nom != null ? param.nom : ''}" type="text" name="nom" class="form-control" id="nomInput" placeholder="Nom de l'élève">
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="prenomInput">Prénom</label>
+                                <input th:value="${param.prenom != null ? param.prenom : ''}" type="text" name="prenom" class="form-control" id="prenomInput" placeholder="Prénom de l'élève">
+                              </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputNaissance">Date de naissance</label>
+                                    <input th:value="${param.naissance != null ? param.naissance : ''}" type="date" name="naissance" class="form-control" id="inputNaissance" placeholder="Date de naissance">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputLieuNaissance">Lieu de naissance</label>
+                                    <input th:value="${param.lieuNaissance != null ? param.lieuNaissance : ''}" type="text" name="lieuNaissance" class="form-control" id="inputLieuNaissance" placeholder="Lieu de naissance">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- justify-content-center///////pour centre -->
+                        <div class="row ">
+                            <div class="col-md-6">
+                              <div class="form-group"> <!--text-center pour centré -->
+                                <label for="inputAdresse" >Adresse</label>
+                                <input th:value="${param.adresse != null ? param.adresse : ''}" type="text" name="adresse" class="form-control" id="inputAdresse" placeholder="Adresse">
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group"> <!--text-center pour centré -->
+                                  <label for="inputAdresse" >Genre</label>
+                                  <select name="genre" class="form-control" id="inputAdresse" placeholder="Adresse">
+                                    <option value="G">
+                                        Garçon
+                                    </option>
+                                    <option value="F">
+                                        Fille
+                                    </option>
+                                  </select>
+                                </div>
+                            </div>
+                        </div>  
+                        <button type="button" class="btn btn-primary float-right" style="margin-bottom: 10px;" onclick="stepper.next()">
+                            Next <i class="fas fa-arrow-right"></i> 
+                        </button>              
+                      </div>
+                      <!------------------------------------------------STEP 2---------------------------------------------------------------------->
+
+                      <div id="otherinformation-part" class="content" role="tabpanel" aria-labelledby="otherinformation-part-trigger">
+                        <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="pereInput">Père</label>
+                                <input th:value="${param.pere != null ? param.pere : ''}" type="text" name="pere" class="form-control" id="pereInput" placeholder="Nom du père">
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="mereInput">Mère</label>
+                                <input th:value="${param.mere != null ? param.mere : ''}" type="text" name="mere" class="form-control" id="mereInput" placeholder="Nom de la mère">
+                              </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="adresseParentinput">Adresse</label>
+                                    <input th:value="${param.adresseParent != null ? param.adresseParent : ''}" type="text" name="adresseParent" class="form-control" id="adresseParentinput" placeholder="Adresse du Parent">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputContact">Contact</label>
+                                    <input th:value="${param.contactParent != null ? param.contactParent : ''}" type="text" name="contactParent" class="form-control" id="inputContact" placeholder="Contact">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- justify-content-center///////pour centre -->
+                        <div class="row ">
+                            <div class="col-md-6">
+                              <div class="form-group"> <!--text-center pour centré -->
+                                <label for="inputTuteur" >Tuteur</label>
+                                <input th:value="${param.tuteur != null ? param.tuteur : ''}" type="text" name="tuteur" class="form-control" id="inputTuteur" placeholder="Nom tuteur">
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group"> <!--text-center pour centré -->
+                                  <label for="adresseTuteurInput" >Adresse tuteur</label>
+                                  <input th:value="${param.adresseTuteur != null ? param.adresseTuteur : ''}" type="text" name="adresseTuteur" class="form-control" id="adresseTuteurInput" placeholder="Adresse tuteur">
+                                </div>
+                            </div>
+                        </div>  
+                        <div class="row justify-content-center">
+                            <div class="col-md-6">
+                                <div class="form-group text-center"> <!--text-center pour centré -->
+                                  <label for="inputContactTuteur" >Contact tuteur</label>
+                                  <input th:value="${param.contactTuteur != null ? param.contactTuteur : ''}" type="text" name="contactTuteur" class="form-control" id="inputContactTuteur" placeholder="Contact tuteur">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary float-right" style="margin-bottom: 10px;" onclick="stepper.next()">
+                            Next <i class="fas fa-arrow-right"></i> 
+                        </button>
+                        <button type="button" class="btn btn-primary float-left" style="margin-bottom: 10px;" onclick="stepper.previous()">
+                            <i class="fas fa-arrow-left"></i> Prec
+                        </button>
+                      </div>
+                      <!------------------------------------------------STEP 3---------------------------------------------------------------------->
+
+                      <div id="autre-part" class="content" role="tabpanel" aria-labelledby="autre-part-trigger">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputNiveau" >Niveau</label>
+                                    <select class="form-control" name="id_niveau" id="inputNiveau" placeholder="Niveau">
+                                        <option th:each="niveau : ${niveaux}" th:text="${niveau.nom}" th:value="${niveau.idNiveau}" th:onclick="'getDataSection('+${niveau.idNiveau}+')'"></option>
+                                    </select>
+                                  </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="inputSection" >Section</label>
+                                    <select class="form-control" name="id_section" id="inputSection" placeholder="Section">
+                                        <option th:each="section : ${sections}" th:value="${section.idSection}" th:text="${section.section}">6ème1</option>
+                                    </select>
+                                  </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center ">
+                            <div class="col-md-6">
+                                <div class="form-group text-center"> <!--text-center pour centré -->
+                                  <label for="inputContactTuteur" >Ecole anterieur</label>
+                                  <input th:value="${param.ecoleAnterieur != null ? param.ecoleAnterieur : ''}" type="text" name="ecoleAnterieur" class="form-control" id="inputContactTuteur" placeholder="Ecole anterieur">
+                                </div>
+                            </div>
+                        </div>
+                          <button type="button" class="btn btn-primary float-left" style="margin-bottom: 10px;" onclick="stepper.previous()">
+                            <i class="fas fa-arrow-left"></i> Prec
+                           </button>
+                           <button type="submit" class="btn btn-primary float-right" style="margin-bottom: 10px;">
+                            Validé
+                           </button>
+                        </div>
+                      </form>
+                    </div>
+                </div>
+                <div class="card-footer">
+                </div>
+              </div>
+        </div>
+      </div>
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../plugins/bs-stepper/js/bs-stepper.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.stepper = new Stepper(document.querySelector('.bs-stepper'))
+  })
+
+  function getDataSection(id_niveau) {
+    $(document).ready(function(){    
+        $.ajax({
+            url: "/api/niveau/sections?id_niveau="+id_niveau,
+            type: "GET",
+            success: function(data){
+                const select=document.getElementById('inputSection');
+                select.innerHTML='';
+                console.log(data);
+
+                data.forEach(item => {
+                    const option=document.createElement('option');
+                    option.value=item.idSection;
+                    option.textContent=item.section;
+                    select.appendChild(option);
+                });
+            },
+            error: function(error){
+                console.log("Erreur: ", error);
+            }
+        });
+    });
+  
+  }
+
+</script>
+</body>
+</html>
