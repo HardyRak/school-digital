@@ -17,6 +17,7 @@ import com.hard.cegAndranovelona.modeles.Section;
 import com.hard.cegAndranovelona.service.AnneeScolaireService;
 import com.hard.cegAndranovelona.service.AvertissementService;
 import com.hard.cegAndranovelona.service.EtudiantsService;
+import com.hard.cegAndranovelona.service.HistoriqueClasseService;
 import com.hard.cegAndranovelona.service.NiveauService;
 import com.hard.cegAndranovelona.service.SectionService;
 
@@ -41,6 +42,8 @@ public class EtudiantsControleur {
     private SectionService sectionService;
     @Autowired
     private AnneeScolaireService anneeScolaireService;
+    @Autowired
+    private HistoriqueClasseService historiqueClasseService;
 
     @CrossOrigin(origins = "*")
     @GetMapping("/api/etudiants")
@@ -138,6 +141,7 @@ public class EtudiantsControleur {
             HistoriqueClasse historiqueClasse=new HistoriqueClasse();
             historiqueClasse.setEtudiant(etudiants);
             historiqueClasse.setSection(etudiants.getSection());
+            historiqueClasseService.saveOrUpdate(historiqueClasse);
             return "redirect:/etudiant/profil?id_etudiant="+etudiants.getIdEtudiants();
         } catch (Exception e) {
             e.printStackTrace();
