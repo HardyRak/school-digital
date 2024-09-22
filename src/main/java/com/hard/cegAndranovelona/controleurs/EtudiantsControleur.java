@@ -163,4 +163,50 @@ public class EtudiantsControleur {
 
     }
 
+    @PostMapping("/etudiant/modification")
+    public String modification(
+        @RequestParam long id_etudiant,
+        @RequestParam String nom, @RequestParam String prenom,
+        @RequestParam String naissance, @RequestParam String lieuNaissance,@RequestParam String adresse,
+        @RequestParam String pere,@RequestParam String mere, @RequestParam String tuteur,
+        @RequestParam String adresseParent,@RequestParam String adresseTuteur, @RequestParam String contactParent, @RequestParam String contactTuteur
+    ){
+
+        try {
+            Etudiants etudiants=service.getById(id_etudiant).get();
+            etudiants.setNom(nom);
+            etudiants.setPrenom(prenom);
+            etudiants.setDateNaissance(Function.stringToDate(naissance));
+            etudiants.setLieuNaissance(lieuNaissance);
+            etudiants.setAdresse(adresse);
+            etudiants.setNomPere(pere);
+            etudiants.setNomMere(mere);
+            etudiants.setNomTuteur(tuteur);
+            etudiants.setAdresseParent(adresseParent);
+            etudiants.setAdresseTuteur(adresseTuteur);
+            etudiants.setContactParent(contactParent);
+            etudiants.setContactTuteur(contactTuteur);
+            Function.generateQR(etudiants);
+            service.saveOrUpdate(etudiants);
+            return "redirect:/etudiant/profil?id_etudiant="+etudiants.getIdEtudiants()+"&msgV=Modification reussi";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/etudiant/profil?msg=" + e.getMessage() +
+                   "&nom=" + nom +
+                   "&prenom=" + prenom +
+                   "&naissance=" + naissance +
+                   "&lieuNaissance=" + lieuNaissance +
+                   "&adresse=" + adresse +
+                   "&pere=" + pere +
+                   "&mere=" + mere +
+                   "&adresseParent=" + adresseParent +
+                   "&contactParent=" + contactParent +
+                   "&tuteur=" + tuteur +
+                   "&adresseTuteur=" + adresseTuteur +
+                   "&contactTuteur=" + contactTuteur+
+                   "&id_etudiant="+id_etudiant;
+        }
+        
+    }
+
 }
