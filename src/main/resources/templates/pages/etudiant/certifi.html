@@ -63,29 +63,26 @@
                     <p><span style="margin-left:80px;">Je Soussigné, ANDRIANARIMALALA Romeo Sedera,<span><br> Directeur du Collège d'Enseignement Général d'Andranoveiona Ilafy,<br> Antananarivo Avaradrano. Certifie que:</p>
                     <p><b style="font-size:17px;" th:text="${etudiant.nom}+' '+${etudiant.prenom}">NOM</b> <g th:if="${etudiant.genre}==F" >Née</g><g th:if="${etudiant.genre}==G" >Né</g> le <g th:text="${etudiant.dateNaissance}" >Date Naissance</g> à <g th:text="${etudiant.lieuNaissance}">Mahamasina</g> </p>
                     
-<!-- Pour les filles -->
-<th:block th:if="${etudiant.genre}=='F'">
-    <p th:if="${etudiant.nomPere != null and etudiant.nomPere != ''}" 
-       th:text="'Fille de : ' + ${etudiant.nomPere}"></p>
-    <p th:if="${etudiant.nomPere == null or etudiant.nomPere == ''}" 
-       th:text="'Fille de : ' + ${etudiant.nomMere}"></p>
-</th:block>
+                    <!-- Pour les filles -->
+                    <th:block th:if="${etudiant.genre}=='F'">
+                        <p th:if="${etudiant.nomPere != null and etudiant.nomPere != ''}" 
+                        th:text="'Fille de : ' + ${etudiant.nomPere}"></p>
+                        <p th:if="${etudiant.nomPere == null or etudiant.nomPere == ''}" 
+                        th:text="'Fille de : ' + ${etudiant.nomMere}"></p>
+                    </th:block>
 
-<!-- Pour les garçons -->
-<th:block th:if="${etudiant.genre}=='G'">
-    <p th:if="${etudiant.nomPere != null and etudiant.nomPere != ''}" 
-       th:text="'Fils de : ' + ${etudiant.nomPere}"></p>
-    <p th:if="${etudiant.nomPere == null or etudiant.nomPere == ''}" 
-       th:text="'Fils de : ' + ${etudiant.nomMere}"></p>
-</th:block>
+                    <!-- Pour les garçons -->
+                    <th:block th:if="${etudiant.genre}=='G'">
+                        <p th:if="${etudiant.nomPere != null and etudiant.nomPere != ''}" 
+                        th:text="'Fils de : ' + ${etudiant.nomPere}"></p>
+                        <p th:if="${etudiant.nomPere == null or etudiant.nomPere == ''}" 
+                        th:text="'Fils de : ' + ${etudiant.nomMere}"></p>
+                    </th:block>
 
-<!-- Affichage du nom de la mère si les deux noms sont présents -->
-<p th:if="${etudiant.nomPere != null and etudiant.nomPere != ''} and ${etudiant.nomMere != null and etudiant.nomMere != ''}">
-   Et de : <span th:text="${etudiant.nomMere}"></span>
-</p>
-
-
-                 
+                    <!-- Affichage du nom de la mère si les deux noms sont présents -->
+                    <p th:if="${etudiant.nomPere != null and etudiant.nomPere != ''} and ${etudiant.nomMere != null and etudiant.nomMere != ''}">
+                    Et de : <span th:text="${etudiant.nomMere}"></span>
+                    </p>
                     
                     <p>Adresse des Parents ou Tuteurs: <g th:text="${etudiant.adresseParent}">[Adresse]</g></p>
                     <p>Est élève de mon Etablissement du [Date] à ce jour, est</p> <p><g th:if="${etudiant.genre}==F">inscrite</g><g th:if="${etudiant.genre}==G">inscrit</g> au registre sous le numéro <b th:text="${etudiant.matricule}">Matricule</b> Classe de <g th:text="${etudiant.section.niveau.nom}">Classe</g></p>

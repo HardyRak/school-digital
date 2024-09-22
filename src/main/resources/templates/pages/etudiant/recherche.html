@@ -135,6 +135,8 @@
             },
             error: function(error) {
                 reject(error);
+                console.log(error.responseText)
+                loadingSpinner.style.display='none';
             }
             });
         });

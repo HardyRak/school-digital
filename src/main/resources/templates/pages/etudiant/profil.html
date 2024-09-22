@@ -122,7 +122,7 @@
                         <hr>
                         <strong th:if="${etudiant.nomTuteur}!=null" ><i class="fas fa-users mr-1"></i> Tuteur</strong>
         
-                        <p th:if="${etudiant.nomTuteur}!=null" class="text-muted">
+                        <p th:if="${etudiant.nomTuteur}!=null or ${etudiant.tuteur==''}" class="text-muted">
                           <span th:text="'Nom: '+${etudiant.nomTuteur}"></span>
                           <br>
                           <span th:text="'Adresse: '+${etudiant.adresseTuteur}"></span>
