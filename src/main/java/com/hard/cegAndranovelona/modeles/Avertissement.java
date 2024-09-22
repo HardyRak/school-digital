@@ -13,8 +13,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Setter
 @Entity
+@Setter
 @Table(name = "avertissement")
 public class Avertissement {
     @Id
@@ -30,4 +30,18 @@ public class Avertissement {
     @JoinColumn(name = "id_annee_scolaire")
     private AnneeScolaire anneeScolaire;
     private String motif;
+
+    public void setCause(String cause) throws Exception {
+        if (cause.equals("") || cause.isEmpty()) {
+            throw new Exception("Cause obligatoire");
+        }
+        this.cause = cause;
+    }
+    public void setMotif(String motif) throws Exception {
+        if (motif.equals("") || motif.isEmpty()) {
+            throw new Exception("motif obligatoire");
+        }
+        this.motif = motif;
+    }
+
 }
