@@ -97,7 +97,7 @@ public class EtudiantsControleur {
     @GetMapping("/etudiant/recherche/resultat")
     public ResponseEntity<?> recherche(@RequestParam String parametre){
         if (parametre.toCharArray().length<4) {
-            return new ResponseEntity<>("3 lettre minimum",HttpStatus.BAD_REQUEST);   
+            return new ResponseEntity<>("3 lettres minimum",HttpStatus.BAD_REQUEST);   
         }
         try {
             Integer.parseInt(parametre);
@@ -210,6 +210,23 @@ public class EtudiantsControleur {
                    "&id_etudiant="+id_etudiant;
         }
         
+    }
+
+    @PostMapping("/etudiant/avertissement")
+    public String avertissement(@RequestParam String cause,@RequestParam String motif,@RequestParam long id_etudiant){
+        Etudiants etudiants=service.getById(id_etudiant).get();
+        Avertissement avertissement=new Avertissement();
+        try {
+            avertissement.setCause(cause);
+            avertissement.setMotif(motif);
+            avertissement.setDate(Function.getCurrenDate());
+            avertissement.setEtudiant(etudiants);
+            avertissement.setAnneeScolaire(etudiants.getSection().getAnneeScolaire());
+            avertissementService.saveOrUpdate(avertissement);
+            return "redirect:/etudiant/profil?id_etudiant="+etudiants.getIdEtudiants()+"#avertissement";
+        } catch (Exception e) {
+            return "redirect:/etudiant/profil?msg="+e.getMessage()+"&id_etudiant="+id_etudiant+"#avertissement";
+        }
     }
 
 }

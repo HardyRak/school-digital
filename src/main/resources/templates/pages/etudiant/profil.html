@@ -70,7 +70,7 @@
                   <ul class="nav nav-pills">
                     <li class="nav-item"><a class="nav-link active" href="#information" data-toggle="tab">Information</a></li>
                     <li class="nav-item"><a class="nav-link" href="#avertissement" data-toggle="tab">Avertissements</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#modification" data-toggle="tab">Modification</a></li>
                   </ul>
                 </div>
                 <div class="card-body">
@@ -88,9 +88,9 @@
                     <div class="active tab-pane" id="information">
                       <div class="post">
                         <div class="text-center">
-                          <img class="profile-user-img img-fluid img-squard"
-                                th:src="${etudiant.qr}"
-                                alt="QR CODE">
+                          <img class="profile-user-img img-fluid img-squard w-25"
+                            th:src="${etudiant.qr}"
+                            alt="QR CODE">
                         </div>
                         <p class="text-muted text-center">Scan moi</p>
                       </div>
@@ -120,9 +120,9 @@
                         <p class="text-muted" th:text="${etudiant.contactParent}"></p>
         
                         <hr>
-                        <strong th:if="${etudiant.nomTuteur}!=null" ><i class="fas fa-users mr-1"></i> Tuteur</strong>
+                        <strong th:if="${etudiant.nomTuteur}!=null and ${etudiant.nomTuteur==''} " ><i class="fas fa-users mr-1"></i> Tuteur</strong>
         
-                        <p th:if="${etudiant.nomTuteur}!=null or ${etudiant.tuteur==''}" class="text-muted">
+                        <p th:if="${etudiant.nomTuteur}!=null" class="text-muted">
                           <span th:text="'Nom: '+${etudiant.nomTuteur}"></span>
                           <br>
                           <span th:text="'Adresse: '+${etudiant.adresseTuteur}"></span>
@@ -133,24 +133,53 @@
                     </div>
                     <!-- /.tab-pane -->
                     <div class="tab-pane" id="avertissement">
-                      <h3 class="text-center">Avertissement</h3>
-                      <div class="card-danger" th:each="avertissement : ${avertissements}">
-                        <div class="card-header">
-                          <h3 class="card-title" th:text="${avertissement.cause}"></h3>
+                      <h3 class="text-center">Avertissement 
+                        <i class="fa fa-plus" id="showFormAvertisement" style="float: right;" onclick="showAvertissementForm()"></i>
+                      </h3>
+                      <form method="POST" action="/etudiant/avertissement" id="avertissementForm" style="display: none;">
+                        <input type="hidden" th:value="${etudiant.idEtudiants}" name="id_etudiant">
+                        <div class="row align-items-center">
+                            <div class="col-md-4">
+                              <div class="form-group">
+                                <label for="causeInput">Cause</label>
+                                <input type="text" name="cause" class="form-control" id="causeInput" placeholder="Cause">
+                              </div>
+                            </div>
+    
+                            <div class="col-md-4">
+                              <div class="form-group">
+                                <label for="motifInput">Motif</label>
+                                <input type="text" name="motif" class="form-control" id="motifInput" placeholder="Motif">
+                              </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                              <button type="submit" class="btn btn-danger">Validé</button>
+                            </div>
                         </div>
-                        <div class="card-body">
-                          <strong><i class="fas fa-calendar-alt mr-1"></i> Date: </strong>
-                          <p class="text-muted" th:text="${avertissement.date}" ></p>
-                          <hr>
-                          <strong><i class="fas fa-paint-brush mr-1"></i> Motif: </strong>
-                          <p class="text-muted" th:text="${avertissement.motif} " ></p>
+                      </form>
+
+                      <div class="row">
+                        <div class="col-md-6" th:each="avertissement : ${avertissements}">
+                          <div class="card-danger">
+                            <div class="card-header">
+                              <h3 class="card-title" th:text="${avertissement.cause}"></h3>
+                            </div>
+                            <div class="card-body">
+                              <strong><i class="fas fa-calendar-alt mr-1"></i> Date: </strong>
+                              <p class="text-muted" th:text="${avertissement.date}" ></p>
+                              <hr>
+                              <strong><i class="fas fa-paint-brush mr-1"></i> Motif: </strong>
+                              <p class="text-muted" th:text="${avertissement.motif} " ></p>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
                     
                     <!-- /.tab-pane -->
   
-                    <div class="tab-pane" id="settings">
+                    <div class="tab-pane" id="modification">
                       <form method="POST" action="/etudiant/modification">
                         <div class="row">
                           <div class="col-md-6">
@@ -254,4 +283,22 @@
     <script src="../../plugins/jquery/jquery.min.js"></script>
     <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../../dist/js/adminlte.min.js"></script>
+    <script>
+      function showAvertissementForm() {
+        const showFormAvertisement = document.getElementById('showFormAvertisement'); 
+        const form = document.getElementById('avertissementForm');
+        form.style.display = 'block';
+        showFormAvertisement.onclick = hideAvertissementForm;
+        showFormAvertisement.className='fa fa-minus';
+      }
+
+      function hideAvertissementForm() {
+          const showFormAvertisement = document.getElementById('showFormAvertisement'); 
+          const form = document.getElementById('avertissementForm');
+          form.style.display = 'none';
+          showFormAvertisement.onclick = showAvertissementForm;
+          showFormAvertisement.className='fa fa-plus';
+      }
+
+    </script>
 </html>

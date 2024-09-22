@@ -64,7 +64,10 @@
                                 <tbody>
                                     <div id="loadingSpinner" style="display: none;">
                                         <i class="fas fa-circle-notch fa-spin"></i> Chargement...
-                                    </div>                            
+                                    </div>
+                                    <div id="result" style="display: none;">
+                                        
+                                    </div>         
                                 </tbody>
                             </table>
                         </div>
@@ -85,6 +88,8 @@
         tableBody.innerHTML='';
         const loadingSpinner=document.getElementById('loadingSpinner');
         loadingSpinner.style.display='block';
+        const result=document.getElementById('result');
+        result.style.display='none';
         await attendre(1000)
         return new Promise(function(resolve, reject) {
             $.ajax({
@@ -137,6 +142,8 @@
                 reject(error);
                 console.log(error.responseText)
                 loadingSpinner.style.display='none';
+                result.textContent=error.responseText;
+                result.style.display='block';
             }
             });
         });
