@@ -74,6 +74,16 @@
                   </ul>
                 </div>
                 <div class="card-body">
+                  <div class="alert alert-danger alert-dismissible" th:if="${param.msg}">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h6><i class="icon fas fa-ban"></i> Alert!</h6>
+                    <g th:text="${param.msg}"></g>
+                  </div>
+                  <div class="alert alert-success alert-dismissible" th:if="${param.msgV}">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h6><i class="icon fas fa-ban"></i> Alert!</h6>
+                    <g th:text="${param.msgV}"></g>
+                  </div>
                   <div class="tab-content">
                     <div class="active tab-pane" id="information">
                       <div class="post">
@@ -141,51 +151,94 @@
                     <!-- /.tab-pane -->
   
                     <div class="tab-pane" id="settings">
-                      <form class="form-horizontal">
-                        <div class="form-group row">
-                          <label for="inputName" class="col-sm-2 col-form-label">Name</label>
-                          <div class="col-sm-10">
-                            <input type="email" class="form-control" id="inputName" placeholder="Name">
+                      <form method="POST" action="/etudiant/modification">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="nomInput">Nom</label>
+                              <input type="hidden" name="id_etudiant" th:value="${etudiant.idEtudiants}">
+                              <input type="text" th:value="${etudiant.nom}" name="nom" class="form-control" id="nomInput" placeholder="Nom de l'élève">
+                            </div>
                           </div>
-                        </div>
-                        <div class="form-group row">
-                          <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
-                          <div class="col-sm-10">
-                            <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-                          </div>
-                        </div>
-                        <div class="form-group row">
-                          <label for="inputName2" class="col-sm-2 col-form-label">Name</label>
-                          <div class="col-sm-10">
-                            <input type="text" class="form-control" id="inputName2" placeholder="Name">
-                          </div>
-                        </div>
-                        <div class="form-group row">
-                          <label for="inputExperience" class="col-sm-2 col-form-label">Experience</label>
-                          <div class="col-sm-10">
-                            <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
-                          </div>
-                        </div>
-                        <div class="form-group row">
-                          <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
-                          <div class="col-sm-10">
-                            <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
-                          </div>
-                        </div>
-                        <div class="form-group row">
-                          <div class="offset-sm-2 col-sm-10">
-                            <div class="checkbox">
-                              <label>
-                                <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                              </label>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="prenomInput">Prénom</label>
+                              <input type="text" th:value="${etudiant.prenom}" name="prenom" class="form-control" id="prenomInput" placeholder="Prénom de l'élève">
                             </div>
                           </div>
                         </div>
-                        <div class="form-group row">
-                          <div class="offset-sm-2 col-sm-10">
-                            <button type="submit" class="btn btn-danger">Submit</button>
+
+                        <div class="row">
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label for="naissanceInput">Date de naissance</label>
+                              <input type="date" th:value="${etudiant.dateNaissance}" name="naissance" class="form-control" id="naissanceInput" placeholder="Date de naissance">
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label for="lieuNaissance">Lieu de naissance</label>
+                              <input type="text" th:value="${etudiant.lieuNaissance}" name="lieuNaissance" class="form-control" id="lieuNaissance" placeholder="Lieu de naissance">
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label for="inputAdresse">Adresse</label>
+                              <input type="text" th:value="${etudiant.adresse}" name="adresse" class="form-control" id="inputAdresse" placeholder="Adresse">
+                            </div>
                           </div>
                         </div>
+
+                        <div class="row">
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label for="inputPere">Père</label>
+                              <input type="text" th:value="${etudiant.nomPere}" name="pere" class="form-control" id="inputPere" placeholder="Père">
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label for="inputMere">Mère</label>
+                              <input type="text" th:value="${etudiant.nomMere}" name="mere" class="form-control" id="inputMere" placeholder="Mère">
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label for="inputTuteur">Tuteur </label>
+                              <input type="text" th:value="${etudiant.nomTuteur}" name="tuteur" class="form-control" id="inputTuteur" placeholder="Tuteur">
+                            </div>
+                          </div>
+                        </div>
+                      
+                        <div class="row">
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="inputAdresseParent">Adresse Parent</label>
+                              <input type="text" th:value="${etudiant.adresseParent}" name="adresseParent" class="form-control" id="inputAdresseParent" placeholder="adresse parent">
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="inputAdresseTuteur">Adresse Tuteur</label>
+                              <input type="text" th:value="${etudiant.adresseTuteur}" name="adresseTuteur" class="form-control" id="inputAdresseTuteur" placeholder="Adresse tuteur">
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="inputContactParent">Contact Parent</label>
+                              <input type="text" th:value="${etudiant.contactParent}" name="contactParent" class="form-control" id="inputContactParent" placeholder="Contact Parent">
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="inputContactTuteur">Contact Tuteur</label>
+                              <input type="text" th:value="${etudiant.contactTuteur}" name="contactTuteur" class="form-control" id="inputContactTuteur" placeholder="Contact Tuteur">
+                            </div>
+                          </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary float-right" style="margin-bottom: 10px;">
+                        Validé
+                       </button>
                       </form>
                     </div>
                   </div>
