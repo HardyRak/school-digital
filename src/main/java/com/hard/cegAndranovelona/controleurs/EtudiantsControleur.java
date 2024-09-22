@@ -95,7 +95,10 @@ public class EtudiantsControleur {
     }
 
     @GetMapping("/etudiant/recherche/resultat")
-    public ResponseEntity<List<Etudiants>> recherche(@RequestParam String parametre){
+    public ResponseEntity<?> recherche(@RequestParam String parametre){
+        if (parametre.toCharArray().length<4) {
+            return new ResponseEntity<>("3 lettre minimum",HttpStatus.BAD_REQUEST);   
+        }
         try {
             Integer.parseInt(parametre);
             List<Etudiants> etudiants=service.getByMatricule(parametre);
