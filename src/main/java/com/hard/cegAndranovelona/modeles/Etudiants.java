@@ -107,6 +107,20 @@ public class Etudiants {
         this.ecoleAnterieur=ecoleAnterieur;
     }
 
+    public void setAdresseTuteur(String adresseTuteur) throws Exception{
+        if (this.nomTuteur.equals("") || this.nomTuteur.isEmpty() || this.nomTuteur==null) {
+            throw new Exception("Tuteur obligatoire si vous ajouté un adresse de tuteur");
+        }
+        this.adresseTuteur=adresseTuteur;
+    }
+
+    public void setContactTuteur(String contactTuteur) throws Exception{
+        if (this.nomTuteur.equals("") || this.nomTuteur.isEmpty() || this.nomTuteur==null) {
+            throw new Exception("Tuteur obligatoire si vous ajouté un contact de tuteur");
+        }
+        this.contactTuteur=contactTuteur;
+    }
+
     public Etudiants(String matricule,String nom, String prenom, Date naissance, String lieuNaissance, 
                      String adresse, String genre, String pere, String mere, 
                      String adresseParent, String contactParent, String tuteur, 

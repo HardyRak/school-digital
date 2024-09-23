@@ -70,6 +70,7 @@
                   <ul class="nav nav-pills">
                     <li class="nav-item"><a class="nav-link active" href="#information" data-toggle="tab">Information</a></li>
                     <li class="nav-item"><a class="nav-link" href="#avertissement" data-toggle="tab">Avertissements</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#absence" data-toggle="tab">Absences</a></li>
                     <li class="nav-item"><a class="nav-link" href="#modification" data-toggle="tab">Modification</a></li>
                   </ul>
                 </div>
@@ -177,6 +178,54 @@
                       </div>
                     </div>
                     
+                    <div class="tab-pane" id="absence">
+                      <h3 class="text-center">Absences 
+                        <i class="fa fa-plus" id="showFormAbsence" onclick="showAbsenceForm()" style="float: right;"></i>
+                      </h3>
+                      <div>
+                        <form method="POST" action="/etudiant/absence" id="absenceForm" style="display: none;">
+                          <input type="hidden" th:value="${etudiant.idEtudiants}" name="id_etudiant">
+                          <div class="row align-items-center">
+                              <div class="col-md-4">
+                                <div class="form-group">
+                                  <label for="dateDebutInput">Du</label>
+                                  <input type="date" name="date_debut" class="form-control" id="dateDebutInput" placeholder="date debut">
+                                </div>
+                              </div>
+  
+                              <div class="col-md-4">
+                                <div class="form-group">
+                                  <label for="motifInput">Motif</label>
+                                  <textarea type="text" name="motif" class="form-control" id="motifInput" placeholder="Motif"></textarea>
+                                </div>
+                              </div>
+
+                                <div class="col-md-4">
+                                  <button type="submit" class="btn btn-warning">Validé</button>
+                                </div>
+  
+                              <!-- <div class="col-md-4">
+                                <button type="submit" class="btn btn-warning">Validé</button>
+                              </div> -->
+                          </div>
+                        </form>
+                      </div>
+          
+                      <div class="row">
+                        <div class="col-md-6" th:each="absence : ${absences}">
+                          <div class="card-warning">
+                            <div class="card-header">
+                              <h3 class="card-title" th:text="'du '+${absence.date_debut}+' au '+${absence.date_fin}"></h3>
+                            </div>
+                            <div class="card-body">
+                              <strong><i class="fas fa-paint-brush mr-1"></i> Motif: </strong>
+                              <p class="text-muted" th:text="${absence.motif} " ></p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
                     <!-- /.tab-pane -->
   
                     <div class="tab-pane" id="modification">
@@ -299,6 +348,21 @@
           showFormAvertisement.onclick = showAvertissementForm;
           showFormAvertisement.className='fa fa-plus';
       }
+      
+      function showAbsenceForm() {
+        const showFormAvertisement = document.getElementById('showFormAbsence'); 
+        const form = document.getElementById('absenceForm');
+        form.style.display = 'block';
+        showFormAbsence.onclick = hideAbsenceForm;
+        showFormAbsence.className='fa fa-minus';
+      }
 
+      function hideAbsenceForm() {
+          const showFormAbsence = document.getElementById('showFormAbsence'); 
+          const form = document.getElementById('absenceForm');
+          form.style.display = 'none';
+          showFormAbsence.onclick = showAbsenceForm;
+          showFormAbsence.className='fa fa-plus';
+      }
     </script>
 </html>
