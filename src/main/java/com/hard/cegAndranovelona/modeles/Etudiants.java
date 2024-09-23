@@ -143,6 +143,4 @@ public class Etudiants {
         setEcoleAnterieur(ecoleAnterieur);
         setMatricule(matricule);
     }
-
-
 }
