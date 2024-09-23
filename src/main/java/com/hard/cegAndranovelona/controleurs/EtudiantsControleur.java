@@ -8,12 +8,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hard.cegAndranovelona.function.Function;
+import com.hard.cegAndranovelona.modeles.Absence;
 import com.hard.cegAndranovelona.modeles.AnneeScolaire;
 import com.hard.cegAndranovelona.modeles.Avertissement;
 import com.hard.cegAndranovelona.modeles.Etudiants;
 import com.hard.cegAndranovelona.modeles.HistoriqueClasse;
 import com.hard.cegAndranovelona.modeles.Niveau;
 import com.hard.cegAndranovelona.modeles.Section;
+import com.hard.cegAndranovelona.service.AbsenceService;
 import com.hard.cegAndranovelona.service.AnneeScolaireService;
 import com.hard.cegAndranovelona.service.AvertissementService;
 import com.hard.cegAndranovelona.service.EtudiantsService;
@@ -29,6 +31,8 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Controller
 public class EtudiantsControleur {
@@ -44,7 +48,8 @@ public class EtudiantsControleur {
     private AnneeScolaireService anneeScolaireService;
     @Autowired
     private HistoriqueClasseService historiqueClasseService;
-
+    @Autowired
+    private AbsenceService absenceService;
     @CrossOrigin(origins = "*")
     @GetMapping("/api/etudiants")
     public ResponseEntity<List<Etudiants>> getAllEtudiantsApi() {
@@ -68,8 +73,10 @@ public class EtudiantsControleur {
     public String getProfilEtudiant(@RequestParam long id_etudiant,Model model) {
         Etudiants etudiants=service.getById(id_etudiant).get();
         List<Avertissement> avertissements=avertissementService.getByEtudiant(etudiants);
+        List<Absence> absences=absenceService.getAbsenceByEtudiant(etudiants);
         model.addAttribute("etudiant",etudiants);
         model.addAttribute("avertissements",avertissements);
+        model.addAttribute("absences",absences);
         return "pages/etudiant/profil";
     }
 
@@ -96,7 +103,7 @@ public class EtudiantsControleur {
 
     @GetMapping("/etudiant/recherche/resultat")
     public ResponseEntity<?> recherche(@RequestParam String parametre){
-        if (parametre.toCharArray().length<4) {
+        if (parametre.toCharArray().length<3) {
             return new ResponseEntity<>("3 lettres minimum",HttpStatus.BAD_REQUEST);   
         }
         try {
@@ -228,5 +235,23 @@ public class EtudiantsControleur {
             return "redirect:/etudiant/profil?msg="+e.getMessage()+"&id_etudiant="+id_etudiant+"#avertissement";
         }
     }
+
+    @PostMapping("/etudiant/absence")
+    public String postMethodName(@RequestParam String date_debut,@RequestParam long id_etudiant,@RequestParam String motif) {
+        Etudiants etudiants=service.getById(id_etudiant).get();
+        Absence absence=new Absence();
+        try {
+            absence.setAnneeScolaire(etudiants.getSection().getAnneeScolaire());
+            absence.setDate_debut(Function.stringToDate(date_debut));
+            absence.setEtudiant(etudiants);
+            absence.setMotif(motif);
+            absence.setDate_fin(Function.getCurrenDate());
+            absenceService.saveOrUpdate(absence);
+            return "redirect:/etudiant/profil?id_etudiant="+etudiants.getIdEtudiants()+"#absence";
+        } catch (Exception e) {
+            return "redirect:/etudiant/profil?msg="+e.getMessage()+"&id_etudiant="+id_etudiant+"#avertissement";
+        }
+    }
+    
 
 }
