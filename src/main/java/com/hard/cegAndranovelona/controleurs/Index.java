@@ -1,5 +1,8 @@
 package com.hard.cegAndranovelona.controleurs;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,5 +50,19 @@ public class Index {
         System.out.println(hash);
         return hash;
     }
+
+    @GetMapping("/toBase64")
+    public String getMethodName() {
+        try {
+            File sary=new File("/home/hardy/Images/Inter-Miami-C.F.-Logo.png");
+            String b4=Function.toBase64(sary);
+            System.out.println(b4);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return "redirect:/";
+    }
+    
 }
 

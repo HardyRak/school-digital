@@ -51,6 +51,10 @@ public class Etudiants {
     private String ecoleAnterieur;
 
     @ManyToOne
+    @JoinColumn(name ="id_mode", nullable=false)
+    private ModeEntre modeEntre;
+
+    @ManyToOne
     @JoinColumn(name = "id_section", nullable = false)
     private Section section;
 
@@ -108,15 +112,19 @@ public class Etudiants {
     }
 
     public void setAdresseTuteur(String adresseTuteur) throws Exception{
-        if (this.nomTuteur.equals("") || this.nomTuteur.isEmpty() || this.nomTuteur==null) {
-            throw new Exception("Tuteur obligatoire si vous ajouté un adresse de tuteur");
+        if (!adresseTuteur.isEmpty()) {
+            if (this.nomTuteur.equals("") || this.nomTuteur.isEmpty() || this.nomTuteur==null) {
+                throw new Exception("Tuteur obligatoire si vous ajouté un adresse de tuteur");
+            }   
         }
         this.adresseTuteur=adresseTuteur;
     }
 
     public void setContactTuteur(String contactTuteur) throws Exception{
-        if (this.nomTuteur.equals("") || this.nomTuteur.isEmpty() || this.nomTuteur==null) {
-            throw new Exception("Tuteur obligatoire si vous ajouté un contact de tuteur");
+        if (!contactTuteur.isEmpty()) {
+            if (this.nomTuteur.equals("") || this.nomTuteur.isEmpty() || this.nomTuteur==null) {
+                throw new Exception("Tuteur obligatoire si vous ajouté un contact de tuteur");
+            }   
         }
         this.contactTuteur=contactTuteur;
     }

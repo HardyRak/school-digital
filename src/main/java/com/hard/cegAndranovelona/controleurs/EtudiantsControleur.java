@@ -6,11 +6,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.hard.cegAndranovelona.function.Function;
 import com.hard.cegAndranovelona.modeles.Absence;
 import com.hard.cegAndranovelona.modeles.AnneeScolaire;
 import com.hard.cegAndranovelona.modeles.Avertissement;
+import com.hard.cegAndranovelona.modeles.CertificatScolarite;
 import com.hard.cegAndranovelona.modeles.Etudiants;
 import com.hard.cegAndranovelona.modeles.HistoriqueClasse;
 import com.hard.cegAndranovelona.modeles.Niveau;
@@ -18,20 +18,20 @@ import com.hard.cegAndranovelona.modeles.Section;
 import com.hard.cegAndranovelona.service.AbsenceService;
 import com.hard.cegAndranovelona.service.AnneeScolaireService;
 import com.hard.cegAndranovelona.service.AvertissementService;
+import com.hard.cegAndranovelona.service.CertificatScolariteService;
 import com.hard.cegAndranovelona.service.EtudiantsService;
 import com.hard.cegAndranovelona.service.HistoriqueClasseService;
+import com.hard.cegAndranovelona.service.ModeEntreService;
 import com.hard.cegAndranovelona.service.NiveauService;
 import com.hard.cegAndranovelona.service.SectionService;
-
 import jakarta.transaction.Transactional;
-
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @Controller
@@ -50,6 +50,11 @@ public class EtudiantsControleur {
     private HistoriqueClasseService historiqueClasseService;
     @Autowired
     private AbsenceService absenceService;
+    @Autowired
+    private CertificatScolariteService certificatScolariteService;
+    @Autowired
+    private ModeEntreService entreService;
+
     @CrossOrigin(origins = "*")
     @GetMapping("/api/etudiants")
     public ResponseEntity<List<Etudiants>> getAllEtudiantsApi() {
@@ -64,11 +69,6 @@ public class EtudiantsControleur {
         return "pages/etudiants/liste";
     }
 
-    @GetMapping("/etudiants/ajout")
-    public String formInsert(Model model) {
-        return "pages/etudiants/ajout";
-    }
-
     @GetMapping("/etudiant/profil")
     public String getProfilEtudiant(@RequestParam long id_etudiant,Model model) {
         Etudiants etudiants=service.getById(id_etudiant).get();
@@ -78,6 +78,20 @@ public class EtudiantsControleur {
         model.addAttribute("avertissements",avertissements);
         model.addAttribute("absences",absences);
         return "pages/etudiant/profil";
+    }
+
+    @GetMapping("/etudiant/api/avertisement")
+    public ResponseEntity<List<?>> getAvertissement(@RequestParam long id_etudiant) {
+        Etudiants etudiants=service.getById(id_etudiant).get();
+        List<Avertissement> avertissements=avertissementService.getByEtudiant(etudiants);
+        return new ResponseEntity<>(avertissements, HttpStatus.OK);
+    }
+    
+    @GetMapping("/etudiant/api/absence")
+    public ResponseEntity<List<?>> getAbsence(@RequestParam long id_etudiant) {
+        Etudiants etudiants=service.getById(id_etudiant).get();
+        List<Absence> absences=absenceService.getAbsenceByEtudiant(etudiants);
+        return new ResponseEntity<>(absences, HttpStatus.OK);
     }
 
     @GetMapping("/findQR")
@@ -123,6 +137,7 @@ public class EtudiantsControleur {
         List<Section> sections=sectionService.getByAnneeEtNiveau(actu, niveaux.get(0));
         model.addAttribute("niveaux",niveaux);
         model.addAttribute("sections",sections);
+        model.addAttribute("modeEntres",entreService.getAll());
         return "pages/etudiant/formulaireAjout";
     }
 
@@ -137,14 +152,15 @@ public class EtudiantsControleur {
         @RequestParam String tuteur, @RequestParam String adresseTuteur, 
         @RequestParam String contactTuteur,
         @RequestParam long id_niveau, @RequestParam long id_section,
-        @RequestParam String ecoleAnterieur
+        @RequestParam String ecoleAnterieur,@RequestParam long id_modeEntres
     ){
         try {
             Etudiants etudiants = new Etudiants(
-                "1235",nom, prenom, Function.stringToDate(naissance), lieuNaissance, adresse, genre,
+                "1236",nom, prenom, Function.stringToDate(naissance), lieuNaissance, adresse, genre,
                 pere, mere, adresseParent, contactParent, tuteur, adresseTuteur,
                 contactTuteur, sectionService.getById(id_section).get(), ecoleAnterieur
             );
+            etudiants.setModeEntre(entreService.getById(id_modeEntres).get());
             etudiants=service.saveOrUpdate(etudiants);
             Function.generateQR(etudiants);
             etudiants=service.saveOrUpdate(etudiants);
@@ -170,7 +186,6 @@ public class EtudiantsControleur {
                    "&contactTuteur=" + contactTuteur +
                    "&ecoleAnterieur=" + ecoleAnterieur;
         }
-
     }
 
     @PostMapping("/etudiant/modification")
@@ -253,5 +268,14 @@ public class EtudiantsControleur {
         }
     }
     
+    @PostMapping("/etudiant/certificatScolarite")
+    public  ResponseEntity<?> certification(@RequestParam("id_etudiant") long id_etudiant) {
+        Etudiants etudiants=service.getById(id_etudiant).get();
+        CertificatScolarite certificatScolarite=new CertificatScolarite();
+        certificatScolarite.setAnneeScolaire(etudiants.getSection().getAnneeScolaire());
+        certificatScolarite.setEtudiants(etudiants);
+        certificatScolariteService.saveOrUpdate(certificatScolarite);
+        return ResponseEntity.ok("validé");
+    }
 
 }
