@@ -46,7 +46,11 @@
 </head>
 <body>
     <div class="col-md-2">
-        <button type="button" onclick="topdfall('certificat')" class="btn btn-block btn-outline-info btn-sm">PDF</button>
+        <button type="button" 
+        th:data-idetudiant="${etudiant.idEtudiants}" 
+        onclick="saveCertficat('certificat', this.dataset.idetudiant)" 
+        class="btn btn-block btn-outline-info btn-sm">PDF</button>
+
     </div>
     <div id="certificat" class="container">
         <div>
@@ -115,6 +119,17 @@
             };
             html2pdf().set(options).from(element).save();
         }
+
+        function saveCertficat(iddata, id_etudiant) {
+            $.post("/etudiant/certificatScolarite", 
+            {
+                id_etudiant: id_etudiant
+            },
+            function(data, status) {
+                topdfall(iddata);
+            });
+        }
+
     </script>
 </body>
 </html>

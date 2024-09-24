@@ -60,6 +60,10 @@
                   <strong><i class="fas fa-pencil-alt mr-1"></i> Ecole Anterieur</strong>
   
                   <p class="text-muted" th:text="${etudiant.ecoleAnterieur}"></p>
+
+                  <strong> <i class="fas fa-file-alt mr-1"></i> Mode d'entrée</strong>
+  
+                  <p class="text-muted" th:text="${etudiant.modeEntre.mode}"></p>
   
                 </div>
               </div>
@@ -69,8 +73,8 @@
                 <div class="card-header p-2">
                   <ul class="nav nav-pills">
                     <li class="nav-item"><a class="nav-link active" href="#information" data-toggle="tab">Information</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#avertissement" data-toggle="tab">Avertissements</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#absence" data-toggle="tab">Absences</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#avertissement" th:onclick="'clickAvertissement('+${etudiant.idEtudiants}+')'" data-toggle="tab">Avertissements</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#absence" th:onclick="'clickAbsence('+${etudiant.idEtudiants}+')'" data-toggle="tab">Absences</a></li>
                     <li class="nav-item"><a class="nav-link" href="#modification" data-toggle="tab">Modification</a></li>
                   </ul>
                 </div>
@@ -160,21 +164,8 @@
                         </div>
                       </form>
 
-                      <div class="row">
-                        <div class="col-md-6" th:each="avertissement : ${avertissements}">
-                          <div class="card-danger">
-                            <div class="card-header">
-                              <h3 class="card-title" th:text="${avertissement.cause}"></h3>
-                            </div>
-                            <div class="card-body">
-                              <strong><i class="fas fa-calendar-alt mr-1"></i> Date: </strong>
-                              <p class="text-muted" th:text="${avertissement.date}" ></p>
-                              <hr>
-                              <strong><i class="fas fa-paint-brush mr-1"></i> Motif: </strong>
-                              <p class="text-muted" th:text="${avertissement.motif} " ></p>
-                            </div>
-                          </div>
-                        </div>
+                      <div class="row" id="avertissementSection">
+                        
                       </div>
                     </div>
                     
@@ -203,26 +194,12 @@
                                 <div class="col-md-4">
                                   <button type="submit" class="btn btn-warning">Validé</button>
                                 </div>
-  
-                              <!-- <div class="col-md-4">
-                                <button type="submit" class="btn btn-warning">Validé</button>
-                              </div> -->
                           </div>
                         </form>
                       </div>
           
-                      <div class="row">
-                        <div class="col-md-6" th:each="absence : ${absences}">
-                          <div class="card-warning">
-                            <div class="card-header">
-                              <h3 class="card-title" th:text="'du '+${absence.date_debut}+' au '+${absence.date_fin}"></h3>
-                            </div>
-                            <div class="card-body">
-                              <strong><i class="fas fa-paint-brush mr-1"></i> Motif: </strong>
-                              <p class="text-muted" th:text="${absence.motif} " ></p>
-                            </div>
-                          </div>
-                        </div>
+                      <div class="row" id="absenceSection">
+                        
                       </div>
                     </div>
 
@@ -331,38 +308,6 @@
     </body>
     <script src="../../plugins/jquery/jquery.min.js"></script>
     <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../dist/js/profilPage.js"></script>
     <script src="../../dist/js/adminlte.min.js"></script>
-    <script>
-      function showAvertissementForm() {
-        const showFormAvertisement = document.getElementById('showFormAvertisement'); 
-        const form = document.getElementById('avertissementForm');
-        form.style.display = 'block';
-        showFormAvertisement.onclick = hideAvertissementForm;
-        showFormAvertisement.className='fa fa-minus';
-      }
-
-      function hideAvertissementForm() {
-          const showFormAvertisement = document.getElementById('showFormAvertisement'); 
-          const form = document.getElementById('avertissementForm');
-          form.style.display = 'none';
-          showFormAvertisement.onclick = showAvertissementForm;
-          showFormAvertisement.className='fa fa-plus';
-      }
-      
-      function showAbsenceForm() {
-        const showFormAvertisement = document.getElementById('showFormAbsence'); 
-        const form = document.getElementById('absenceForm');
-        form.style.display = 'block';
-        showFormAbsence.onclick = hideAbsenceForm;
-        showFormAbsence.className='fa fa-minus';
-      }
-
-      function hideAbsenceForm() {
-          const showFormAbsence = document.getElementById('showFormAbsence'); 
-          const form = document.getElementById('absenceForm');
-          form.style.display = 'none';
-          showFormAbsence.onclick = showAbsenceForm;
-          showFormAbsence.className='fa fa-plus';
-      }
-    </script>
 </html>

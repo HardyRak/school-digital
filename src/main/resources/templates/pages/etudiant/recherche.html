@@ -78,7 +78,7 @@
     </section>
     <script type="text/javascript" src="../../plugins/jquery/jquery.min.js"></script>
     <script>
-         function attendre(ms) {
+    function attendre(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
@@ -132,7 +132,7 @@
 
                     const detailCell = document.createElement("td");
                     detailCell.innerHTML = `
-                        <a href="/etudiant/profil?id_etudiant=${item.idEtudiants}">
+                        <a href="/etudiant/profil?id_etudiant=${item.idEtudiants}" target="_blank">
                             <button class="btn btn-block btn-outline-info btn-sm" type="button">Info</button>
                         </a>`;
                     row.appendChild(detailCell);
